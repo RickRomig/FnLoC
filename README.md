@@ -22,10 +22,12 @@ Braces '{}' on lines by themselves are not counted as lines of code.
 
 1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed
 from the .deb package using gdebi or dpkg.
+
         sudo gdebi fnloc.deb
         sudo dpkg -i fnloc.deb
 
 2. The FnLoC files will be installed to the following directories:
+
         fnloc to /usr/local/bin/
         loc2file to /usr/local/bin/
         fnloc.* to /usr/local/src/fnloc/
@@ -38,6 +40,7 @@ from the .deb package using gdebi or dpkg.
 ### Un-installation
 
 1. If installed from fnloc.deb, you can remove the software via your system's Software Center/Manager or the Synaptic Package manager. You can remove the software from the command line with one of the following commands:
+
             sudo apt-get remove fnloc
             sudo dpkg -- remove fnloc
 
@@ -53,20 +56,26 @@ from the .deb package using gdebi or dpkg.
 following command from a terminal:
 
  * If you are in same directory as the targeted source code file:
+
             fnloc sourcefile.c
 
  * Or include the path to your source code:
+
             fnloc /path/to/sourcefile.c
 
  * The results can be redirected to a text file with the following command:
+
             fnloc sourcefile.c > sourcefile.loc
 
  * The results can be diplayed to both the screen and redirected to a file with the following command:
+
             fnloc sourcefile.c | tee sourcefile.loc
 
  * The included loc2file is a Bash script that will display the fnloc output to the screen and redirect it to a text file with the extension .loc.
+
               log2file mysource.c
->If there is also an accompanying mysource.h file in the directory, its LOC data will be appended to that of mysource.c.
+
+        >If there is also an accompanying mysource.h file in the directory, its LOC data will be appended to that of mysource.c.
 
  * To get help and view the syntax:
             fnloc -h
