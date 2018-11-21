@@ -1,5 +1,15 @@
 CHANGELOG
 
+November 19, 2018 - fnloc 2.2.1
+        Added code and changed the data structure used in the linked list to
+        allow for a second line in a function header.
+
+        If the function state is PosFunction, included a switch statement to
+        handle the cases where buffer[0] is '{', '}' or white space.
+
+        Modified the functions to insert function data into the linked list and
+        to print function data to reflect changes in the data structure.
+
 October 6, 2018
         Created a simple deb package, eliminating the need for installation and
         de-installation scripts.

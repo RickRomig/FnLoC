@@ -1,10 +1,9 @@
-# FnLoc - Counts Logical Lines of Code
+# FnLoC - Counts Logical Lines of Code
 Counts logical lines of code and functions in C and C++ source code files.
 
 Copyright 2018, Richard Romig
 
 ### Description:
-
 FnLoC is a program that runs from a command-line counts logical lines of
 code in C and C++ source code files. The program counts lines of code in
 C/C++ source code disregarding comments and blank lines. It also counts and
@@ -15,148 +14,92 @@ standards as illustrated in The C Programming Language, 2nd edition by
 Brian W. Kernighan & Dennis M. Ritchie.
 
 Comments and blank lines are not counted as lines of code. The programs
-takes into account both C and C++ style comments.
+takes into account both C and C++ style comments /* .... */ and // .....
 
 Braces '{}' on lines by themselves are not counted as lines of code.
 
 ### Installation:
 
-1. If you've downloaded the .deb file use gdebi or dpkg to install.
-            sudo gdebi fnloc.deb
-            sudo dpkg -i fnloc.deb
+1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed
+from the .deb package using gdebi or dpkg.
+        sudo gdebi fnloc.deb
+        sudo dpkg -i fnloc.deb
 
-2. Unzip the 'fnloc-installation-files' directory by dragging it out of the
-Archive Manager application onto your desktop and click on it see the
-files.
+2. The FnLoC files will be installed to the following directories:
+        fnloc to /usr/local/bin/
+        loc2file to /usr/local/bin/
+        fnloc.* to /usr/local/src/fnloc/
+        documentation files to /usr/local/doc/fnloc
 
-3. You can install FnLoC from the provided fnloc-install.sh script by
-clicking on the fnloc-install.sh file inside a file manager. Choose
-"Run In Terminal" from the pop up menu. Alternately, you can choose Open
-In Terminal by right-clicking anywhere within the 'fnloc-installation-files'
-directory. Run the fnloc-install.sh script with this command:
+3. For other Linux distributions, download the fnloc-installation-files.tar.gz file, unzipping it, and running fnloc-install.sh from a terminal. Further instructions are contained in that zipped archive.
 
-            ./fnloc-install.sh
-
-4. The fnloc-install.sh script MUST be run within 'fnloc-installation-files'
-directory or it will exit with errors. It CANNOT be run directly from the
-zip archive.
-
-5. The installation script will install files to the following directories:
-            fnloc to /usr/local/bin/
-            loc2file to /usr/local/bin/
-            fnloc.* to /usr/local/src/fnloc/
-            documentation files to /usr/local/doc/fnloc
-
-### Manual Installation:
-
-1. FnLoc and loc2file can be copied directly to either your ~/bin, /usr/bin,
-or /usr/local/bin directory.
-
-2. Open a terminal in the unzipped 'fnloc-installation-files' directory and
-run the command 'cp fnloc ~/bin/' if you already have a personal bin
-directory. Or you can copy it to /usr/local/bin with 'sudo cp fnloc
-/usr/local/bin/'.
-
-3. The program is immediately available for use by opening a terminal,
-navigating to your source code directory, and running the command 'fnloc'
-followed by the name of your source code file, i.e., fnloc mysource.c.
+4. Windows users need to download FnLoC_Win.zip and run FnLoC-install.bat. See the included README.txt for more information.
 
 ### Un-installation
 
-1. If installed from the .deb package, you can remove the software via your system's Software Center/Manager or Synaptic Package manager.
-
-2. You can remove the software from the command line with one of the following
-commands:
+1. If installed from fnloc.deb, you can remove the software via your system's Software Center/Manager or the Synaptic Package manager. You can remove the software from the command line with one of the following commands:
             sudo apt-get remove fnloc
             sudo dpkg -- remove fnloc
 
-3. The fnloc-uninstall.sh script will remove FnLoC if it was installed with
-the fnloc-install.sh script explained above. It can be run from from a
-terminal anywhere within the directory structure.
+2. If installed using the fnloc-install.sh installation script, use the fnloc-uninstall.sh script found in the archive file.
 
-4. Open the 'fnloc-installation-files' directory and click on the 'fnloc-
-uninstall.sh' file and choose Run in Terminal. The script will remove all
-of the assoicated files as well as the fnloc directories.
+3. If installed using FnLoC-install.bat in Windows, uninstall with FnLoC-uninstall.bat. See the included README.txt for more information.
 
-5. You can also navigate to the fnloc-uninstall.sh file from within a
-terminal and run it with this command:
+4. FnLoC can be removed manually by deleting the installed files.
 
-            ./fnloc-uninstall.sh
-
-6. Errors reported in this script just mean it could not find all of the
-FnLoC files. This usually means FnLoC was not installed with the fnloc-
-install.sh and it will have to be removed manually.
-
-### SYNTAX
+### Syntax
 
 1. To display the lines of code data of a C source code file run the
 following command from a terminal:
-        fnloc sourcefile.c
-        fnloc /path/to/sourcefile.c
 
-2. The results can be redirected to a text file with the following command:
+ * If you are in same directory as the targeted source code file:
+            fnloc sourcefile.c
+
+ * Or include the path to your source code:
+            fnloc /path/to/sourcefile.c
+
+ * The results can be redirected to a text file with the following command:
             fnloc sourcefile.c > sourcefile.loc
 
-3. The results can be diplayed to both the screen and redirected to a file
-with the following command:
+ * The results can be diplayed to both the screen and redirected to a file with the following command:
             fnloc sourcefile.c | tee sourcefile.loc
 
-4. The included loc2file is a Bash script that will display the fnloc output
-to the screen and redirect it to a text file with the extension .loc.
-
+ * The included loc2file is a Bash script that will display the fnloc output to the screen and redirect it to a text file with the extension .loc.
               log2file mysource.c
->If there is also an accompanying mysource.h file in the directory,
-its LOC data will be appended to that of mysource.c.
+>If there is also an accompanying mysource.h file in the directory, its LOC data will be appended to that of mysource.c.
 
-5. To get help and view the syntax:
+ * To get help and view the syntax:
             fnloc -h
             fnloc --help
 
-6. If you don't include an argument or if the program fails to open the file
-passed as an argument it will also call up the help function.
+ * If you don't include an argument or if the program fails to open the file passed as an argument it will also call up the help function.
 
-### PROGRAM LIMITATIONS
+### Program Limitations
 
 1. Functions are expected to be in the following style:
-
         int function_name(int x, int y)
         {
             statements....
         }
 
-        -   This is the format recommended by Linus Torvalds in 'Linux Kernel
-            Coding Style' and is based on the style used by K&R in 'The C
-            Programming Language, 2nd Edition'.
+ * This is the format recommended by Linus Torvalds in 'Linux Kernel Coding Style' and is based on the style used by K&R in 'The C Programming Language, 2nd Edition'.
             (https://www.kernel.org/doc/html/v4.10/process/coding-style.html)
 
-        -   If the opening brace '{' is on the same line as the function name
-            and parameters, it will not be seen as a function. The lines of code
-            will be counted but as code outside of a function.
+ * If the opening brace '{' is on the same line as the function name and parameters, it will not be seen as a function. The lines of code will be counted but as code outside of a function.
 
-        -   While the program will properly count function headers that are split
-            over two lines, the method for capturing the function name will only
-            get the portion the name on the first line. To ensure that the entire
-            function name is captured, the function header should be contained on
-            one line and less than 128 characters (The buffer limit is set to 128
-            characters.)
+ * The program will properly count and display function headers that are split over two lines. Function headers should be limited to one or two lines of less than 128 characters each. The buffer limit is set to 128 characters. However, restraining function headers to a single line and 80 characters or less is a good practice.
 
 2. Data structures should be in the following style:
-
             struct {
                 int len;
                 char *str;
             } data;
 
-        -   This is the style used by Kernighan & Ritchie in The C Programming
-            Language, 2nd edition.
+ * This is the style used by Kernighan & Ritchie in The C Programming Language, 2nd edition.
 
-        -   The GNU C coding standard suggests placing the opening brackets are
-            at the beginning of a line. However, FNLOC will incorrectly identify
-            a structure written in this style as a function.
+ * The GNU C coding standard suggests placing the opening brackets are at the beginning of a line. However, FnLoC will incorrectly identify a structure written in this style as a function.
 
-        -   In data structure declarations such as arrays or enumerated types in
-            which the data elements are delimited by commas, the elements inside
-            the braces are not counted if they are not on the same line as a brace.
+ * In data structure declarations such as arrays or enumerated types in which the data elements are delimited by commas, the elements inside the braces are not counted if they are not on the same line as a brace.
 
             Example:
                 int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -168,8 +111,7 @@ passed as an argument it will also call up the help function.
                 };
             is seen as a two lines of code (the first and last lines).
 
-3.  Conditional statements and for loops without braces and only one
- statement following are counted as one line of code.
+3. Conditional statements and for loops without braces and only one statement following are counted as one line of code.
 
             /* This will be seen as a one logical line of code */
             if ( condition )
@@ -190,14 +132,11 @@ passed as an argument it will also call up the help function.
             else
                 action3;
 
-4. Conditional and loop statements (if, else, for, while, do, for) where an
-opening brace is the first non-whtespace character on the line immediately
-following are counted as a line of code.
+4. Conditional and loop statements (if, else, for, while, do, for) where an opening brace is the first non-whtespace character on the line immediately following are counted as a line of code.
 
 ### Feedback:
 
-Feel free to contact me with comments and suggestions for FNLOC. Also feel free
-to share any code that will help me improve this program.
+Feel free to contact me with comments and suggestions for FNLOC. Also feel free to share any code that will help me improve this program.
 
 Rick's Tech Stuff: https://ricktech.wordpress.com
 
@@ -206,8 +145,7 @@ Email: rick.romig@gmail.com
 Twitter: @ludditegeek
 
 Richard Romig
-
-11 September 2018
+19 November 2018
 
 ### DISCLAIMER
 

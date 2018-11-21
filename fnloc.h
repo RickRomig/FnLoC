@@ -1,5 +1,5 @@
 /*
- * fnloc.h - header file for fnloc_LL.c
+ * fnloc.h - header file for fnloc.c version 2.2.1
  * Copyright (C) 2018  Richard Romig
  *
  * This program is free software; you can redistribute it and/or modify
@@ -13,8 +13,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  * 6 September 2018
  */
@@ -26,7 +25,8 @@ FILE *fp;
 
 /* linked list data structures */
 struct fn_data {
-	char name[BUF_LEN];
+	char name1[BUF_LEN];
+	char name2[BUF_LEN];
 	int loc;
 	struct fn_data *next;
 };
@@ -61,7 +61,7 @@ STATETYPE next_pos_eol(char ch);
 STATETYPE next_inline_comment(char ch);
 
 /* functions for the list */
-void insert_at_end(char fn_name[], int fn_loc);
+void insert_at_end(char fn_name1[], char fn_name2[], int fn_loc);
 node *free_list(node *head);
 
 /* display functions */

@@ -1,6 +1,6 @@
 /*
  * FILE
- *      fnloc.c - version 2.2
+ *      fnloc.c - version 2.2.1
  * NAME
  *      Copyright 2018 Richard B. Romig
  * EMAIL
@@ -29,15 +29,9 @@
  * 	statements:
  *  }
  *
- * Function headers that are split into multiple line, are counted as
- * functions and their function loc is counted correctly. However, the captured
- * function name will be truncated at the end of the first line.
- *
- * float calc_range(List L, float t_val, float std_dev, int x_k, int count,
- *		    float x_ave)
- * This function name will appear in the output as:
- *
- * float calc_range(List L, float t_val, float std_dev, int x_k, int count,
+ * Function headers that are split into two lines, are counted as functions,
+ * their function loc is counted correctly and both lines of the  header are
+ * displayed in the output.
  ******************************************************************************
  *
  * Data structures must be written in the following form:
@@ -46,7 +40,7 @@
  *   float b;
  *  };
  *
- * structures written with the opening braces in the first column will be
+ * Structures written with the opening braces in the first column will be
  * processed as if they are functions.
  *
  * In data structure declarations such as arrays or enumerated types in which
@@ -73,9 +67,9 @@
  *      MinGW gcc on Windows 7
  *
  * MODIFICATION HISTORY
- * 4 Sep 2018 - fixed the problem with counting and identifying mult-line
+ * 4 Sep 2018 	Fixed the problem with counting and identifying mult-line
  * 		function headers.
- * 6 Sep 2018 - Implemented a singly linked list to replace the stack so that
+ * 6 Sep 2018 	Implemented a singly linked list to replace the stack so that
  *		the function listing in the output would be in the same order
  *		as the source code file.
  *		Simplified the data structures. Data is input to the linked
@@ -84,6 +78,11 @@
  *		functions to display information about the program itself,
  *		another to display function names and loc (if any), and a
  *		function to display a summary of the results.
+ * 19 Nov 2018  Modified data structures to hold a possible second line of a
+ *		function header.
+ *		Revised code to initialize string variables to hold function
+ *		names, copy line buffers to them and reset to empty.
+ *		Modified linked list functions to handle additional data.
  ******************************************************************************
  *
  * GNU Public License, Version 2
@@ -98,8 +97,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <stdio.h>
@@ -110,9 +108,10 @@
 
 int main(int argc, char *argv[])
 {
-
+	/* buffers */
 	char buffer[BUF_LEN];	/* line of source code being examined */
-	char fn_name[BUF_LEN];	/* buffer holding function name */
+	char fn_name1[BUF_LEN];	/* function name */
+	char fn_name2[BUF_LEN];	/* 2nd line of function name */
 
 	int i;			/* loops index */
 	int prg_loc = 0;	/* running loc count */
@@ -123,8 +122,8 @@ int main(int argc, char *argv[])
 	/* initial line and function states */
 	STATETYPE state = NewLine;
 	FNSTATETYPE fn_state = NotFunction;
-	fn_name[0] = '\0';
-
+	strcpy(fn_name1, "");
+	strcpy(fn_name2, "");
 
 	if ( argc < 2 )
 	{
@@ -202,20 +201,28 @@ int main(int argc, char *argv[])
 			if ( isalpha(buffer[0]) )
 			{
 				fn_state = PosFunction;
-				strcpy(fn_name, buffer);
+				strcpy(fn_name1, buffer);
+				strcpy(fn_name2, "");
 				fn_loc = 0;
 			}
 
-			if ( fn_state == PosFunction && buffer[0] == '{' )
+			if ( fn_state == PosFunction )
 			{
-				fn_state = IsFunction;
-				fn_count++;
-			}
-
-			if ( fn_state == PosFunction && buffer[0] == '}' )
-			{
-				fn_state = NotFunction;
-				fn_name[0] = '\0';
+				switch (buffer[0])
+				{
+					case '{':
+						fn_state = IsFunction;
+						fn_count++;
+						break;
+					case ' ':
+					case '\t':
+						strcpy(fn_name2, buffer);
+						break;
+					case '}':
+						fn_state = NotFunction;
+						strcpy(fn_name1, "");
+						strcpy(fn_name2, "");
+				}
 			}
 
 			if ( state == NewLine )
@@ -232,9 +239,10 @@ int main(int argc, char *argv[])
 
 			if ( fn_state == IsFunction && buffer[0] == '}' )
 			{
-				insert_at_end(fn_name, fn_loc);
+				insert_at_end(fn_name1, fn_name2, fn_loc);
 				fn_state = NotFunction;
-				fn_name[0] = '\0';
+				strcpy(fn_name1, "");
+				strcpy(fn_name2, "");
 				fn_loc = 0;
 			}
 		}	/* end if( fgets(... */
@@ -646,17 +654,18 @@ STATETYPE next_inline_comment(char ch)
 
 /*
  * FUNCTION
- *	void insert_at_end(char fn_name[], int fn_loc)
+ *	void insert_at_end(fn_name, char fn_name2[], fn_loc)
  * DESCRIPTION
  *	inserts data into a singly linked list at the head if it is the first
  *	item, otherwise at the end.
  * PARAMETERS
  *	char fn_name[]	- character string holding the current function name
+ *	char fn_name2[] - character strng holding second line of function name
  *	int fn_loc - integer holding the number of loc in the function
  * RETURN VALUE
  *	None, inserts data into the linked list
  */
-void insert_at_end(char fn_name[], int fn_loc)
+void insert_at_end(char fn_name1[], char fn_name2[], int fn_loc)
 {
 	node *current;
 	current = (node*)malloc(sizeof(node));
@@ -668,7 +677,8 @@ void insert_at_end(char fn_name[], int fn_loc)
 	}
 	else
 	{
-		strcpy(current->name, fn_name);
+		strcpy(current->name1, fn_name1);
+		strcpy(current->name2, fn_name2);
 		current->loc = fn_loc;
 		current->next = NULL;
 
@@ -722,7 +732,7 @@ node *free_list(node *head)
  */
 void print_intro(char source[])
 {
-	printf("\nFnLoC 2.2\n");
+	printf("\nFnLoC 2.2.1\n");
 	printf("Copyright 2018, Richard B. Romig\n");
 	printf("Licensed under the GNU General Public License, version 2\n\n");
 	printf("Lines of code data for %s\n\n", source);
@@ -758,7 +768,9 @@ void print_fn_data(char source[], int fn_count, int prg_loc)
 		printf("Functions:\n");
 		while ( current != NULL )
 		{
-			printf("%s", current->name);
+			printf("%s", current->name1);
+			if ( strcmp(current->name2, "") != 0 )
+				printf("%s", current->name2);
 			printf("LOC:\t%4d\n", current->loc);
 			current = current->next;
 		}
