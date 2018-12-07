@@ -75,7 +75,7 @@ following command from a terminal:
 
               log2file mysource.c
 
-        >If there is also an accompanying mysource.h file in the directory, its LOC data will be appended to that of mysource.c.
+        If there is also an accompanying mysource.h file in the directory, its LOC data will be appended to that of mysource.c.
 
  * To get help and view the syntax:
             fnloc -h
