@@ -86,6 +86,7 @@ following command from a terminal:
 ### Program Limitations
 
 1. Functions are expected to be in the following style:
+
         int function_name(int x, int y)
         {
             statements....
@@ -99,6 +100,7 @@ following command from a terminal:
  * The program will properly count and display function headers that are split over two lines. Function headers should be limited to one or two lines of less than 128 characters each. The buffer limit is set to 128 characters. However, restraining function headers to a single line and 80 characters or less is a good practice.
 
 2. Data structures should be in the following style:
+
             struct {
                 int len;
                 char *str;
@@ -142,6 +144,8 @@ following command from a terminal:
                 action3;
 
 4. Conditional and loop statements (if, else, for, while, do, for) where an opening brace is the first non-whtespace character on the line immediately following are counted as a line of code.
+
+5. Conditional statements and loop constructs can have the opening brace at either the end of the line or on the following line as long as it is not the first character of the line.
 
 ### Feedback:
 
