@@ -30,10 +30,10 @@ from the .deb package using gdebi or dpkg.
 
         fnloc to /usr/local/bin/
         loc2file to /usr/local/bin/
-        fnloc.* to /usr/local/src/fnloc/
-        documentation files to /usr/local/doc/fnloc
+        fnloc.* to /usr/local/src/fnloc/ # fnloc.c, fnloc.h, fnloc.loc
+        documentation files to /usr/local/doc/fnloc/
 
-3. For other Linux distributions, download the fnloc-installation-files.tar.gz file, unzipping it, and running fnloc-install.sh from a terminal. Further instructions are contained in that zipped archive.
+3. For other Linux distributions, download the fnloc-installation-files.tar.gz file, unzip it, and run fnloc-install.sh from a terminal. Further instructions are contained in that archive.
 
 4. Windows users need to download FnLoC_Win.zip and run FnLoC-install.bat. See the included README.txt for more information.
 
@@ -57,29 +57,29 @@ following command from a terminal:
 
  * If you are in same directory as the targeted source code file:
 
-            fnloc sourcefile.c
+                fnloc sourcefile.c
 
  * Or include the path to your source code:
 
-            fnloc /path/to/sourcefile.c
+                fnloc /path/to/sourcefile.c
 
  * The results can be redirected to a text file with the following command:
 
-            fnloc sourcefile.c > sourcefile.loc
+                fnloc sourcefile.c > sourcefile.loc
 
  * The results can be diplayed to both the screen and redirected to a file with the following command:
 
-            fnloc sourcefile.c | tee sourcefile.loc
+                fnloc sourcefile.c | tee sourcefile.loc
 
  * The included loc2file is a Bash script that will display the fnloc output to the screen and redirect it to a text file with the extension .loc.
 
-              log2file mysource.c
+                log2file mysource.c
 
         If there is also an accompanying mysource.h file in the directory, its LOC data will be appended to that of mysource.c.
 
  * To get help and view the syntax:
-            fnloc -h
-            fnloc --help
+                fnloc -h
+                fnloc --help
 
  * If you don't include an argument or if the program fails to open the file passed as an argument it will also call up the help function.
 
@@ -92,8 +92,7 @@ following command from a terminal:
             statements....
         }
 
- * This is the format recommended by Linus Torvalds in 'Linux Kernel Coding Style' and is based on the style used by K&R in 'The C Programming Language, 2nd Edition'.
-            (https://www.kernel.org/doc/html/v4.10/process/coding-style.html)
+ * This is the format recommended by Linus Torvalds in [Linux Kernel Coding Style](https://www.kernel.org/doc/html/v4.10/process/coding-style.html) and is based on the style used by K&R in 'The C Programming Language, 2nd Edition'.
 
  * If the opening brace '{' is on the same line as the function name and parameters, it will not be seen as a function. The lines of code will be counted but as code outside of a function.
 
@@ -101,10 +100,10 @@ following command from a terminal:
 
 2. Data structures should be in the following style:
 
-            struct {
-                int len;
-                char *str;
-            } data;
+        struct {
+           int len;
+           char *str;
+        } data;
 
  * This is the style used by Kernighan & Ritchie in The C Programming Language, 2nd edition.
 
@@ -112,36 +111,39 @@ following command from a terminal:
 
  * In data structure declarations such as arrays or enumerated types in which the data elements are delimited by commas, the elements inside the braces are not counted if they are not on the same line as a brace.
 
-            Example:
-                int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-            is a single line of code.
+* Examples:
+        int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+            /* counted as a single line of code. */
 
-                int days[12] = {
-                    31, 28, 31, 30, 31, 30,
-                    31, 31, 30, 31, 30, 31
-                };
-            is seen as a two lines of code (the first and last lines).
+        int days[12] = { 31, 28, 31, 30, 31, 30,
+                         31, 31, 30, 31, 30, 31 };
+            /* counted as two lines of code */            
+
+        int days[12] = {
+            31, 28, 31, 30, 31, 30,
+            31, 31, 30, 31, 30, 31 };
+            /* also counted as two lines of code (the first and last lines) */
 
 3. Conditional statements and for loops without braces and only one statement following are counted as one line of code.
 
-            /* This will be seen as a one logical line of code */
-            if ( condition )
+        if ( condition )
                 action;
+        /* This is seen as a one logical line of code */
 
-            /* This will be seen as a one logical line of code */
-            for ( i=1; i < 10; i++ )
+        for ( i=1; i < 10; i++ )
                 if (condition)
                     action;
+        /* This is seen as a one logical line of code */
 
-            /* This will be seen as 4 logical lines of code - if (condition),
-            action1, and action2. The else-action3 is one logical line of code. */
-            if ( condition )
-            {
-                action1;
-                action2;
-            }
-            else
-                action3;
+        if ( condition )
+        {
+            action1;
+            action2;
+        }
+        else
+            action3;
+       /* This is seen as 4 logical lines of code: (1) if (condition), (2) action1,
+          (3) action2, (4) else-action3 */
 
 4. Conditional and loop statements (if, else, for, while, do, for) where an opening brace is the first non-whtespace character on the line immediately following are counted as a line of code.
 
@@ -149,26 +151,19 @@ following command from a terminal:
 
 ### Feedback:
 
-Feel free to contact me with comments and suggestions for FNLOC. Also feel free to share any code that will help me improve this program.
+Feel free to contact me with comments and suggestions for FnLoC. Also feel free to share any code or ideas that will help me improve this program.
 
-Rick's Tech Stuff: https://ricktech.wordpress.com
+I can be reached through my blog, Twitter, and email.
 
-Email: rick.romig@gmail.com
-
-Twitter: @ludditegeek
+>[Rick's Tech Stuff](https://ricktech.wordpress.com)
+>
+>[Twitter (@ludditegeek)](https://twitter.com/ludditegeek)
+>
+>Email: <rick.romig@gmail.com> or <rb_romig@twc.com>
 
 Richard Romig
-19 November 2018
+11 January 2019
 
 ### DISCLAIMER
 
-THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES,
-INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL I BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS AND SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
-IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL I BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS AND SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
