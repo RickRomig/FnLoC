@@ -78,6 +78,7 @@ following command from a terminal:
         If there is also an accompanying mysource.h file in the directory, its LOC data will be appended to that of mysource.c.
 
  * To get help and view the syntax:
+
                 fnloc -h
                 fnloc --help
 
@@ -111,15 +112,16 @@ following command from a terminal:
 
  * In data structure declarations such as arrays or enumerated types in which the data elements are delimited by commas, the elements inside the braces are not counted if they are not on the same line as a brace.
 
-* Examples:
-        int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+ * Examples:
+
+         int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
             /* counted as a single line of code. */
 
-        int days[12] = { 31, 28, 31, 30, 31, 30,
+         int days[12] = { 31, 28, 31, 30, 31, 30,
                          31, 31, 30, 31, 30, 31 };
             /* counted as two lines of code */            
 
-        int days[12] = {
+         int days[12] = {
             31, 28, 31, 30, 31, 30,
             31, 31, 30, 31, 30, 31 };
             /* also counted as two lines of code (the first and last lines) */
@@ -142,8 +144,8 @@ following command from a terminal:
         }
         else
             action3;
-       /* This is seen as 4 logical lines of code: (1) if (condition), (2) action1,
-          (3) action2, (4) else-action3 */
+        /* This is seen as 4 logical lines of code: (1) if (condition), (2) action1,
+           (3) action2, (4) else-action3 */
 
 4. Conditional and loop statements (if, else, for, while, do, for) where an opening brace is the first non-whtespace character on the line immediately following are counted as a line of code.
 
@@ -151,10 +153,10 @@ following command from a terminal:
 
 ### Feedback:
 
-Feel free to contact me with comments and suggestions for FnLoC. Also feel free to share any code or ideas that will help me improve this program.
+Feel free to contact me with comments and suggestions for FnLoC. Also feel free to share any code or ideas that will help me improve this program. I can be reached through my blog, Twitter, and email.
 
-I can be reached through my blog, Twitter, and email.
-
+>[GitHub](https://github.com/RickRomig/FnLoC)
+>
 >[Rick's Tech Stuff](https://ricktech.wordpress.com)
 >
 >[Twitter (@ludditegeek)](https://twitter.com/ludditegeek)
