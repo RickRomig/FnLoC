@@ -4,24 +4,17 @@ Counts logical lines of code and functions in C and C++ source code files.
 Copyright 2018, Richard Romig
 
 ### Description:
-FnLoC is a program that runs from a command-line counts logical lines of
-code in C and C++ source code files. The program counts lines of code in
-C/C++ source code disregarding comments and blank lines. It also counts and
-lists functions by name with their respective lines of code.
+FnLoC is a program that runs from a command-line which counts logical lines of code in C and C++ source code files disregarding comments and blank lines. It also counts and lists functions by name displaying their respective lines of code.
 
-The program assumes that the code is written according to modern C coding
-standards as illustrated in The C Programming Language, 2nd edition by
-Brian W. Kernighan & Dennis M. Ritchie.
+The program assumes that the code is written according to modern C coding standards as illustrated in The C Programming Language, 2nd edition by Brian W. Kernighan & Dennis M. Ritchie.
 
-Comments and blank lines are not counted as lines of code. The programs
-takes into account both C and C++ style comments /* .... */ and // .....
+Comments and blank lines are not counted as lines of code. The programs takes into account both C and C++ style comments /* .... */ and // .....
 
-Braces '{}' on lines by themselves are not counted as lines of code.
+Lines containing only opening or closing braces ({}) are not counted as lines of code.
 
 ### Installation:
 
-1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed
-from the .deb package using gdebi or dpkg.
+1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed from the .deb package using gdebi or dpkg.
 
         sudo gdebi fnloc.deb
         sudo dpkg -i fnloc.deb
@@ -52,8 +45,7 @@ from the .deb package using gdebi or dpkg.
 
 ### Syntax
 
-1. To display the lines of code data of a C source code file run the
-following command from a terminal:
+1. To display the lines of code data of a C source code file run the following command from a terminal:
 
  * If you are in same directory as the targeted source code file:
 
@@ -71,11 +63,9 @@ following command from a terminal:
 
                 fnloc sourcefile.c | tee sourcefile.loc
 
- * The included loc2file is a Bash script that will display the fnloc output to the screen and redirect it to a text file with the extension .loc.
+ * The included loc2file is a Bash script that will display the FnLoC output to the screen while redirecting it to a text file with the extension .loc. If there is also an accompanying header file of the same name in the directory, its LOC data will be appended to that of mysource.c.
 
                 log2file mysource.c
-
-        If there is also an accompanying mysource.h file in the directory, its LOC data will be appended to that of mysource.c.
 
  * To get help and view the syntax:
 
@@ -112,9 +102,7 @@ following command from a terminal:
 
  * In data structure declarations such as arrays or enumerated types in which the data elements are delimited by commas, the elements inside the braces are not counted if they are not on the same line as a brace.
 
- * Examples:
-
-         int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+          int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
             /* counted as a single line of code. */
 
          int days[12] = { 31, 28, 31, 30, 31, 30,
@@ -126,7 +114,7 @@ following command from a terminal:
             31, 31, 30, 31, 30, 31 };
             /* also counted as two lines of code (the first and last lines) */
 
-3. Conditional statements and for loops without braces and only one statement following are counted as one line of code.
+3. Conditional statements, for loops and while loops without braces and only one statement following are counted as one line of code.
 
         if ( condition )
                 action;
@@ -137,6 +125,15 @@ following command from a terminal:
                     action;
         /* This is seen as a one logical line of code */
 
+        while ( condition )
+                action;
+        /* This is seen as a one logical line of code */
+
+        do
+                action;
+        while ( condition );
+        /* This is seen as two logical lines of code */
+
         if ( condition )
         {
             action1;
@@ -144,12 +141,21 @@ following command from a terminal:
         }
         else
             action3;
-        /* This is seen as 4 logical lines of code: (1) if (condition), (2) action1,
+        /* This is seen as 4 logical lines of code: (1) if ( condition ), (2) action1,
            (3) action2, (4) else-action3 */
 
-4. Conditional and loop statements (if, else, for, while, do, for) where an opening brace is the first non-whtespace character on the line immediately following are counted as a line of code.
+4. Conditional and loop statements (if, else, for, while, do-while) where the opening brace is the first non-whtespace character on the line immediately following are counted as a line of code. Conditional statements and loop constructs can have the opening brace at either the end of the line or on the following line as long as it is not the very first character of the line (buffer[0]).
 
-5. Conditional statements and loop constructs can have the opening brace at either the end of the line or on the following line as long as it is not the first character of the line.
+        while ( condition )
+        {
+                action1;
+                action2;
+        }
+
+        while ( condition ) {
+                action1;
+                action2;
+        }
 
 ### Feedback:
 
