@@ -760,7 +760,7 @@ void print_fn_data(char source[], int fn_count, int prg_loc)
 
 	if ( fn_count == 0 )
 	{
-		printf("%s does not contains no function code.\n\n", source);
+		printf("%s does not contain function code.\n\n", source);
 		printf("Total Program LOC:   %4d\n\n", prg_loc);
 	}
 	else
