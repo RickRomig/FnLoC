@@ -7,9 +7,8 @@
  *      rick.romig@gmail.com
  * DATE
  *      6 September 2018
- *
  * DESCRIPTION
- * Counts logical lines of code, skipping comments & blank lines.
+ * Counts logical lines of code, skipping comments and blank lines.
  * Count number of functions and lines of code within the functions.
  * Prints a summary upon completion showing the number of functions, total
  * lines of code contained in functions, total lines of code outside of
@@ -45,7 +44,8 @@
  *
  * In data structure declarations such as arrays or enumerated types in which
  * the data elements are delimited by commas, the elements inside the braces
- * are not counted if they are not on the same line as a brace.
+ * are not counted if they are not on the same line as a brace. The first and
+ * last lines (the lines with the braces) of the declaration are counted.
  ******************************************************************************
  *
  * if, else, for, while, do constructs without braces and only one statement
@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 					break;
 				case (CppComment) :
 					state = next_cpp_comment(buffer[i]);
-					break;
+					breaFILE *fp;k;
 				case (Comment) :
 					state = next_comment(buffer[i]);
 					break;
@@ -358,14 +358,14 @@ STATETYPE next_pos_comment(char ch)
  */
 STATETYPE next_cpp_comment(char ch)
 {
-    STATETYPE st;
+    	STATETYPE st;
 
-    if ( ch == '\n' )
-        st = NewLineNC;
-    else
-    	st = CppComment;
+    	if ( ch == '\n' )
+        	st = NewLineNC;
+    	else
+    		st = CppComment;
 
-    return st;
+    	return st;
 }
 
 /*
@@ -429,7 +429,6 @@ STATETYPE next_pos_end_comment(char ch)
 
 	return st;
 }
-
 
 /*
  * FUNCTION
