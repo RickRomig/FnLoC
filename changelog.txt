@@ -1,5 +1,12 @@
 CHANGELOG
 
+January 25, 2018
+        Cleaned up some of the FnLoC source code (pretty printing).
+
+        Updated the orginal 1998 loc.c source code so that the line parsing Code
+        matched that of the current FnLoC code. Added functions to display
+        prgram results and to display syntax. Gave it Version 1.0.
+
 November 19, 2018 - fnloc 2.2.1
         Added code and changed the data structure used in the linked list to
         allow for a second line in a function header.
@@ -162,4 +169,3 @@ April 1998 - loc.c
         lines, and displaying a summary of total lines of code.
 
         Written for CEG 463 class at Wright State University
-
