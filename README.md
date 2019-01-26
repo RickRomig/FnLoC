@@ -1,12 +1,14 @@
 # FnLoC - Counts Logical Lines of Code
 Counts logical lines of code and functions in C and C++ source code files.
 
-Copyright 2018, Richard Romig
+Copyright 2018-2019, Richard Romig
 
 ### Description:
-1. FnLoC is a program that runs from a command-line which counts logical lines of code in C and C++ source code files disregarding comments and blank lines. It also counts and lists functions by name displaying their respective lines of code. The program assumes that the code is written according to modern C coding standards as illustrated in _The C Programming Language, 2nd edition_ by Brian W. Kernighan & Dennis M. Ritchie. Comments and blank lines are not counted as lines of code. The programs takes into account both C and C++ style comments. Lines containing only opening or closing braces ({}) are not counted as lines of code.
+1. **FnLoC** is a program that runs from a command-line which counts logical lines of code in C and C++ source code files disregarding comments and blank lines. It also counts and lists functions by name displaying their respective lines of code. The program assumes that the code is written according to modern C coding standards as illustrated in _The C Programming Language, 2nd edition_ by Brian W. Kernighan & Dennis M. Ritchie. Comments and blank lines are not counted as lines of code. The programs takes into account both C and C++ style comments. Lines containing only opening or closing braces ({}) are not counted as lines of code.
 
-2. LLoC is an accompanying program that simply counts logical lines of source code, disregarding blank lines and comments without the breakdown into functions.
+2. **LLoC** is an accompanying program that simply counts logical lines of source code, disregarding blank lines and comments without the breakdown into functions.
+
+3. The **loc2file** Bash script acts as a wrapper for FnLoC and LLoC. It displays the output from FnLoC to the screen as it writes the data to a text file with a .loc extension. If there is a matching header file, it will be run through LLoC with the output appended to the file.
 
 ### Installation:
 
@@ -63,7 +65,7 @@ Copyright 2018, Richard Romig
         fnloc sourcefile.c | tee sourcefile.loc
         lloc sourcefile.c | tee sourcefile.loc
 ```
- * The included loc2file is a Bash script that will display the FnLoC output to the screen while redirecting it to a text file with the extension .loc. If there is also an accompanying header file of the same name in the directory, its LOC data will be appended to that of mysource.c.
+ * Alternatively, you can use loc2file to display the output to the screen while redirecting it to a text file with the .loc extension.
 ```
         log2file mysource.c
 ```
@@ -95,7 +97,7 @@ Copyright 2018, Richard Romig
 ```c
         struct {
            int len;
-           char *str;
+           char* str;
         } data;
 ```
  * This is the style used by Kernighan & Ritchie in _The C Programming Language, 2nd edition_.
@@ -171,7 +173,7 @@ Copyright 2018, Richard Romig
   * The -i.bak flag creates a backup of the original file.
 
   * There are other methods such as the tr command but I found that sed works quite well.
-  
+
 ### Feedback:
 
 Feel free to contact me with comments and suggestions for FnLoC. Also feel free to share any code or ideas that will help me improve this program. I can be reached through my blog, Twitter, and email.
