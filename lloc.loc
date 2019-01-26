@@ -1,5 +1,5 @@
 
-FnLoC 2.2.1
+FnLoC 2.2.2
 Copyright 2018, Richard B. Romig
 Licensed under the GNU General Public License, version 2
 
@@ -43,7 +43,9 @@ Function LOC:         162
 Non-function LOC:       5
 Total Program LOC:    167
 
-lloc.h does not contain function code.
+LLoC 1.0
+Copyright 2019 Richard B. Romig
+Licensed under the GNU General Public License, version 2
 
-Total Program LOC:     16
+Lines of code for lloc.h:	16
 
