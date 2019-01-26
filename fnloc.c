@@ -1,6 +1,6 @@
 /*
  * FILE
- *      fnloc.c - version 2.2.1
+ *      fnloc.c - version 2.2.2
  * NAME
  *      Copyright 2018 Richard B. Romig
  * EMAIL
@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 					break;
 				case (CppComment) :
 					state = next_cpp_comment(buffer[i]);
-					breaFILE *fp;k;
+					break;
 				case (Comment) :
 					state = next_comment(buffer[i]);
 					break;
@@ -731,7 +731,7 @@ node *free_list(node *head)
  */
 void print_intro(char source[])
 {
-	printf("\nFnLoC 2.2.1\n");
+	printf("\nFnLoC 2.2.2\n");
 	printf("Copyright 2018, Richard B. Romig\n");
 	printf("Licensed under the GNU General Public License, version 2\n\n");
 	printf("Lines of code data for %s\n\n", source);
@@ -794,7 +794,7 @@ void print_summary(int fn_count, int total_fn_loc, int prg_loc)
 	printf("Number of functions: %4d\n", fn_count);
 	printf("Function LOC:        %4d\n", total_fn_loc);
 	printf("Non-function LOC:    %4d\n", prg_loc - total_fn_loc);
-	printf("Total Program LOC:   %4d\n\n", prg_loc);
+	printf("Total Program LOC:   %4d\n", prg_loc);
 }
 
 /* FUNCTION

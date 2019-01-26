@@ -1,5 +1,5 @@
 /*
- * fnloc.h - header file for fnloc.c version 2.2.1
+ * fnloc.h - header file for fnloc.c version 2.2.2
  * Copyright (C) 2018  Richard Romig
  *
  * This program is free software; you can redistribute it and/or modify
@@ -37,11 +37,9 @@ node *head;
 node *last;
 
 /* Line states */
-typedef enum {
-	NewLine, NewLineNC, PosComment, CppComment, Comment,
+typedef enum {NewLine, NewLineNC, PosComment, CppComment, Comment,
 	PosEndComment, EndComment, CompDir, LineOfCode, OpenBracket,
-  	CloseBracket1, CloseBracket2, PosEOL, InlineComment
-} STATETYPE;
+  	CloseBracket1, CloseBracket2, PosEOL, InlineComment } STATETYPE;
 
 /* Function states */
 typedef enum { NotFunction, PosFunction, IsFunction } FNSTATETYPE;
