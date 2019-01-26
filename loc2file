@@ -1,6 +1,17 @@
 #!/bin/bash
-# loc2file - redirects FnLoC lines of code data to a file
-# Copyright (C) 2018  Richard Romig
+#####################################################################
+# Script Name  : loc2file
+# Description  : Wrapper for fnloco/lloc. Redirects program output to
+#              : a file and stdout
+# Dependencies : fnloc, lloc, tee
+# Arguments    :
+# Author       : Richard Romig, 26 January 2019
+# Email        : rick.romig@gmail.com
+# Comment      : Modified 01/26/10 to incorporate lloc and allow
+#              : .cc and .hh file extensions.
+#####################################################################
+
+# Copyright (C) 2018-2019  Richard Romig
 # Email: rick.romig@gmail.com
 #
 # This program is free software; you can redistribute it and/or modify
@@ -20,10 +31,11 @@ MYSCRIPT=$(basename $0)
 
 usage () {
 	echo "Usage: $MYSCRIPT sourcefile.c"
-	echo "Acceptable extensions are .c or .cpp"
+	echo "Acceptable extensions are: .c .cpp .cc"
 	exit 1
 }
 
+# Check for arguments
 if  [ -z "$1" ]; then
 	echo "Error: No argument provided."
 	usage
@@ -39,7 +51,7 @@ fi
 
 # Get file extension and check to see if it's valid. If not, exit with error.
 EXT="${CSOURCE##*.}"
-if [ "$EXT" != 'c' ] && [ "$EXT" != "cpp" ]; then
+if [ "$EXT" != 'c' ] && [ "$EXT" != "cpp" ] && [ "$EXT" != "cc" ]; then
 	echo "Error: Invalid file extension."
 	usage
 fi
@@ -48,19 +60,21 @@ fi
 BASEFILE=${CSOURCE%%.*}
 LOCFILE="$BASEFILE.loc"
 
-echo "$MYSCRIPT 2.1"
+echo "$MYSCRIPT 2.2"
 echo "Copyright 2018-2019, Richard B. Romig"
 echo "====================================="
-echo "Redirecting FnLoC output to $LOCFILE..."
+echo "Writing LOC data to $LOCFILE..."
 
 # Process the source file with fnloc
 fnloc $CSOURCE | tee $LOCFILE
 
-# Process header file if it exists
+# Process matching header file if it exists
 if [ -e "$BASEFILE.h" ]; then
-	fnloc $BASEFILE.h | tail -n 4 | tee -a $LOCFILE
+	lloc $BASEFILE.h | tee -a $LOCFILE
+elif [ -e "$BASEFILE.hh" ]; then
+	lloc $BASEFILE.hh | tee -a $LOCFILE
 fi
 
-echo "FnLoC data written to $LOCFILE."
+echo "Logical lines of code data written to $LOCFILE."
 
 exit 0
