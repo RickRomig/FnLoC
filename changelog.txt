@@ -1,6 +1,14 @@
 CHANGELOG
 
-January 25, 2018
+January 26, 2019 fnloc 2.2.2 & loc2file 2.2
+        Updated loc2file script to incorporate LLoC for processing header files
+        and allowing the use of .cc and .hh file extensions.
+
+        In fnloc updated print_intro() with current version number and in
+        print_summary() removed the second newline character from the last
+        printf() statement.
+
+January 25, 2019
         Cleaned up some of the FnLoC source code (pretty printing).
 
         Updated the orginal 1998 loc.c source code so that the line parsing Code
