@@ -10,6 +10,19 @@ Copyright 2018-2019, Richard Romig
 
 3. The **loc2file** Bash script acts as a wrapper for FnLoC and LLoC. It displays the output from FnLoC to the screen as it writes the data to a text file with a .loc extension. If there is a matching header file, it will be run through LLoC with the output appended to the file.
 
+### Compiling from source:
+1. On a Linux system, be sure GCC, binutils, glibc, and build-essentials are installed.
+
+2. Compile the code using the Makefile:
+```
+        make Makefile
+```
+3. Or compile the code with GCC:
+```
+        gcc -o fnloc fnloc.c
+        gcc -o lloc lloc.c
+```
+
 ### Installation:
 
 1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed from the .deb package using gdebi or dpkg.
