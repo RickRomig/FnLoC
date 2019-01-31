@@ -1,6 +1,19 @@
 /*
- * fnloc.h - header file for fnloc.c version 2.2.2
- * Copyright (C) 2018  Richard Romig
+ * FILE
+ *      fnloc.h -- header file for fnloc.c version 2.3
+ * NAME
+ *      Copyright (C) 2019  Richard Romig
+ * EMAIL
+ *      rick.romig@gmail.com
+ * DATE
+ *      6 September 2018
+ * DESCRIPTION:
+ * 	Header file for fnloc.c
+ * 	Declares constants, global variables, enumberated types and functions.
+ *
+ * MODIFICATION HISTORY
+ *      Separated common data and functions used in fnloc and lloc and put them
+ *      into lstates.h and lstates.c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +28,14 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <https://www.gnu.org/licenses/>.
  *
- * 6 September 2018
+ * 29 January 2019
  */
+
+#ifndef FNLOC_H
+#define FNLOC_H
 
 /* Maximum buffer length */
 #define BUF_LEN 128
-
-FILE *fp;
 
 /* linked list data structures */
 struct fn_data {
@@ -36,27 +50,8 @@ typedef struct fn_data node;
 node *head;
 node *last;
 
-/* Line states */
-typedef enum {NewLine, NewLineNC, PosComment, CppComment, Comment,
-	PosEndComment, EndComment, CompDir, LineOfCode, OpenBracket,
-  	CloseBracket1, CloseBracket2, PosEOL, InlineComment } STATETYPE;
-
 /* Function states */
 typedef enum { NotFunction, PosFunction, IsFunction } FNSTATETYPE;
-
-/* functions to determine line states */
-STATETYPE next_new_line(char ch);
-STATETYPE next_pos_comment(char ch);
-STATETYPE next_cpp_comment(char ch);
-STATETYPE next_comment(char ch);
-STATETYPE next_pos_end_comment(char ch);
-STATETYPE next_comp_dir(char ch);
-STATETYPE next_line_of_code(char ch);
-STATETYPE next_open_bracket(char ch);
-STATETYPE next_close_bracket1(char ch);
-STATETYPE next_close_bracket2(char ch);
-STATETYPE next_pos_eol(char ch);
-STATETYPE next_inline_comment(char ch);
 
 /* functions for the list */
 void insert_at_end(char fn_name1[], char fn_name2[], int fn_loc);
@@ -66,4 +61,5 @@ node *free_list(node *head);
 void print_intro(char source[]);
 void print_fn_data(char source[], int fn_count, int prg_loc);
 void print_summary(int fn_count, int total_fn_loc, int prg_loc);
-void show_usage(char p_name[]);
+
+#endif

@@ -1,6 +1,6 @@
 /*
  * FILE
- *     lloc.c
+ *     lloc.c v1.1
  * NAME
  *      Copyright 2018 Richard B. Romig
  * EMAIL
@@ -34,23 +34,40 @@
  * end of a line is reached.
  *
  * COMPILER INFO
- *      gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609 on Linux Mint 18.3
+ *      gcc (Ubuntu 7.3.0-27ubuntu1~18.04) 7.3.0 on Linux Mint 19.1
  *      MinGW gcc on Windows 7
+ *
  * MODIFICATION HISTORY
  * 25 Jan 2019  Modified original source code from 1998 Computer Engineering
  * class project to incorporate code from FnLoC 2.2.1 project.
+ * 29 Jan 2018 incorporated lstates.h and lstates.c to combine common functions
+ * between lloc and fnloc for determining states of the examined lines.
+ *
+ * GNU Public License, Version 2
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include "lloc.h"
+#include "lstates.h"
 
 int main(int argc, char *argv[])
 {
         FILE *fp;
-        char buffer[BUFF_LEN];
+        char buffer[BUF_LEN];
         STATETYPE state = NewLine;
         int loc = 0;
         int i;
@@ -78,7 +95,7 @@ int main(int argc, char *argv[])
 
         while( !feof(fp) )
         {
-                if( fgets(buffer, BUFF_LEN, fp) )
+                if( fgets(buffer, BUF_LEN, fp) )
                 {
                         for( i = 0; i < strlen(buffer); i++ )
                         {
@@ -88,7 +105,7 @@ int main(int argc, char *argv[])
                                         state = next_new_line(buffer[i]);
                                         break;
                                 case (NewLineNC) :
-				        break;
+                                        break;
                                 case(PosComment) :
                                         state = next_pos_comment(buffer[i]);
                                         break;
@@ -132,412 +149,19 @@ int main(int argc, char *argv[])
                                 loc++;
                         else if( state == NewLineNC )
                                 state = NewLine;
-                } /* end if( fgets(... */
+                } /* end if(fgets) */
         } /* end while loop */
 
         printLoc(argv[1], loc);
-
-        /* Clean up - close the file */
         fclose(fp);
-
         return(0);
 }
 
 /*
  * FUNCTION
- *	STATETYPE next_new_line(char ch)
+ *	void printLoc(char source[], int loc)
  * DESCRIPTION
- *	Determines the next state if in NewLine state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_new_line(char ch)
-{
-        STATETYPE st;
-
-        if(ch == '\n' )
-                st = NewLineNC;
-        else if( isspace(ch) )
-                st = NewLine;
-        else
-                switch (ch)
-                {
-                        case '/':
-                                st = PosComment;
-                                break;
-                        case '#':
-                                st = CompDir;
-                                break;
-                        case '{':
-                                st = OpenBracket;
-                                break;
-                        case '}':
-                                st = CloseBracket1;
-                                break;
-                        default:
-                                st = LineOfCode;
-                                break;
-                }
-
-    return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_pos_comment(char ch)
- * DESCRIPTION
- *	Determines the next state if in PosComment state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_pos_comment(char ch)
-{
-        STATETYPE st;
-
-        switch (ch)
-        {
-                case '/':
-                        st = CppComment;
-                        break;
-                case '*':
-                        st = Comment;
-                        break;
-                default:
-                        st = NewLineNC;
-                        break;
-        }
-
-    return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_cpp_comment(char ch)
- * DESCRIPTION
- *	Determines the next stat if in CppComment state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_cpp_comment(char ch)
-{
-        STATETYPE st;
-
-        if( ch == '\n' )
-                st = NewLineNC;
-        else
-                st = CppComment;
-
-        return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_comment(char ch)
- * DESCRIPTION
- *	Determines the next state if in Comment state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_comment(char ch)
-{
-	STATETYPE st;
-
-	if ( ch == '*' )
-		st = PosEndComment;
-	else
-		st = Comment;
-
-	return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_pos_end_comment(char ch)
- * DESCRIPTION
- *	Determines the next state if in PosEndComment state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_pos_end_comment(char ch)
-{
-	STATETYPE st;
-
-	switch (ch)
-	{
-		case '/':
-			st = EndComment;
-			break;
-		case '*':
-			st = PosEndComment;
-			break;
-		default:
-			st = Comment;
-			break;
-	}
-
-	return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_comp_dir(char ch)
- * DESCRIPTION
- *	Determines the next state if in CompDir state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_comp_dir(char ch)
-{
-	STATETYPE st;
-
-	if (ch == '\n')
-		st = NewLine;
-	else
-		st = CompDir;
-
-	return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_line_of_code(char ch)
- * DESCRIPTION
- *	Determines the next state if in LineOfCode state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- * MODIFICATION HISTORY
- *	09-03-18 Removed case ',' and case ':'
- */
-STATETYPE next_line_of_code(char ch)
-{
-	STATETYPE st;
-
-	switch (ch)
-	{
-		case '}':
-			st = CloseBracket2;
-			break;
-		case '{':
-		case ';':
-			st = PosEOL;
-			break;
-		default:
-			st = LineOfCode;
-			break;
-	}
-
-	return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_open_bracket(char ch)
- * DESCRIPTION
- *	Determines the next state if in OpenBracket state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_open_bracket(char ch)
-{
-	STATETYPE st;
-
-	switch (ch)
-	{
-		case '\n':
-			st = NewLine;
-			break;
-		case '}':
-			st = CloseBracket2;
-			break;
-		default:
-			st = LineOfCode;
-			break;
-	}
-
-	return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_close_bracket1(char ch)
- * DESCRIPTION
- *	Determines the next state if in CloseBracket1 state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_close_bracket1(char ch)
-{
-	STATETYPE st;
-
-	if ( ch == '\n' )
-		st = NewLineNC;
-	else
-		st = CloseBracket2;
-
-	return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_close_bracket2(char ch)
- * DESCRIPTION
- *	Determines the next state if in CloseBracket2 state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_close_bracket2(char ch)
-{
-	STATETYPE st;
-
-	if ( ch == ';' )
-		st = PosEOL;
-	else
-		st = LineOfCode;
-
-	return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_pos_eol(char ch)
- * DESCRIPTION
- *	Determines the next state if in PosEOL state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_pos_eol(char ch)
-{
-	STATETYPE st;
-
-	switch (ch)
-	{
-		case '\n':
-			st = NewLine;
-			break;
-		case ' ':
-		case '\t':
-			st = PosEOL;
-			break;
-		case '/':
-			st = InlineComment;
-			break;
-		default:
-			st = LineOfCode;
-			break;
-	}
-
-	return st;
-}
-
-/*
- * FUNCTION
- *	STATETYPE next_inline_comment(char ch)
- * DESCRIPTION
- *	Determines the next state if in InlineComment state.
- * PARAMETERS
- *	char ch - a character from the buffer containing the line of
- * 		  code being examined.
- * RETURN VALUE
- *	Returns the new state.
- * SIDE EFFECTS
- *	None known
- * LIMITATIONS
- *	None known
- */
-STATETYPE next_inline_comment(char ch)
-{
-	STATETYPE st;
-
-	if ( ch == '\n' )
-		st = NewLine;
-	else
-		st = InlineComment;
-
-	return st;
-}
-
-/*
- * FUNCTION
- *	void print_intro(char source[])
- * DESCRIPTION
- *	displays introduction for program output
+ *	displays program output
  * PARAMETERS
  *	char source[] - character string containing the name of the source
  *			code file - argv[1]
@@ -546,30 +170,8 @@ STATETYPE next_inline_comment(char ch)
  */
 void printLoc(char source[], int loc)
 {
-	printf("\nLLoC 1.0\n");
+	printf("\nLLoC 1.1\n");
 	printf("Copyright 2019 Richard B. Romig\n");
 	printf("Licensed under the GNU General Public License, version 2\n\n");
 	printf("Lines of code for %s:\t%d\n\n", source, loc);
-}
-
-/* FUNCTION
- *	void show_usage(char p_name[])
- * DESCRIPTION
- * 	Displays program usage information if no arguments are passed, file
- * 	cannot be opened or -h or --help is passed.
- * PARAMETERS
- *	char p_name[] - the name of this program (argv[0])
- * RETURN VALUE
- * 	none
- * SIDE EFFECTS
- *	none
- * LIMITATIONS
- * 	none
-*/
-void show_usage(char p_name[])
-{
- 	printf("\tUsage: %s filename\n", p_name);
- 	printf("\tWhere filename is a C or C++ source code or header file.\n");
- 	printf("\tSee README for information regarding style requirements\n");
- 	printf("\tand limitations.\n\n");
 }
