@@ -1,8 +1,13 @@
 CHANGELOG
 
-January 28, 2018 FnLoC & LLoC
+January 29, 2019 FnLoC 2.3 & LLoC 1.1
+		Moved common enumerated type and function declarations and common
+		function code relating to determining the states of a line of code being
+		examined into lstates.h and lstates.c. Modified the make file accordingly.
+
+January 28, 2019 FnLoC & LLoC
         Created a simple makefile to compile both programs and tested it in Linux.
-        
+
 January 26, 2019 fnloc 2.2.2 & loc2file 2.2
         Updated loc2file script to incorporate LLoC for processing header files
         and allowing the use of .cc and .hh file extensions.

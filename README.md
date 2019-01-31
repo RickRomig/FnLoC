@@ -10,18 +10,23 @@ Copyright 2018-2019, Richard Romig
 
 3. The **loc2file** Bash script acts as a wrapper for FnLoC and LLoC. It displays the output from FnLoC to the screen as it writes the data to a text file with a .loc extension. If there is a matching header file, it will be run through LLoC with the output appended to the file.
 
+4. Project source files:
+ * fnloc.c
+ * fnloc.h
+ * lloc.c
+ * lloc.h
+ * lstates.c    common functions for both fnloc and lloc
+ * lsstates.h   common declarations
+ * Makefile
+
 ### Compiling from source:
 1. On a Linux system, be sure GCC, binutils, glibc, and build-essentials are installed.
 
-2. Compile the code using the Makefile:
+2. Compile the code using the Makefile: (recommended)
 ```
         make Makefile
 ```
-3. Or compile the code with GCC:
-```
-        gcc -o fnloc fnloc.c
-        gcc -o lloc lloc.c
-```
+3. The Makefile is set up to use gcc. If you use a different C compiler, change the CC variable as appropriate.
 
 ### Installation:
 
@@ -32,27 +37,26 @@ Copyright 2018-2019, Richard Romig
 ```
 2. The FnLoC files will be installed to the following directories:
 ```
-        fnloc and lloc to /usr/local/bin/
-        loc2file to /usr/local/bin/
-        fnloc.* and lloc.* to /usr/local/src/fnloc/
-        Documentation files to /usr/local/doc/fnloc/
+        Executable files (fnloc, lloc, and loc2file) go into /usr/local/bin/
+        Source code files go into /usr/local/src/fnloc/
+        Documentation files go into /usr/local/doc/fnloc/
 ```
-3. For other Linux distributions, download the fnloc-installation-files.tar.gz file, unzip it, and run fnloc-install.sh from a terminal. Further instructions are contained in that archive.
+3. For other Linux distributions, download the source files and the scripts (optional), compile from source, and run fnloc-install.sh.
 
 4. Windows users need to download FnLoC_Win.zip and run FnLoC-install.bat. See the included README.txt for more information.
 
-### Un-installation
+### Program removal:
 
 1. If installed from fnloc.deb, you can remove the software via your system's Software Center/Manager or the Synaptic Package manager. You can remove the software from the command line with one of the following commands:
 ```
         sudo apt-get remove fnloc
         sudo dpkg -- remove fnloc
 ```
-2. If installed using the fnloc-install.sh installation script, use the fnloc-uninstall.sh script found in the archive file.
+2. If installed using fnloc-install.sh, use the fnloc-uninstall.sh script.
 
 3. If installed using FnLoC-install.bat in Windows, uninstall with FnLoC-uninstall.bat. See the included README.txt for more information.
 
-4. FnLoC can be removed manually by deleting the installed files.
+4. FnLoC can be removed manually by deleting the installed files from their respective directories.
 
 ### Syntax
 
@@ -200,7 +204,7 @@ Feel free to contact me with comments and suggestions for FnLoC. Also feel free 
 >Email: <rick.romig@gmail.com> or <rb_romig@twc.com>
 
 Richard Romig
-25 January 2019
+30 January 2019
 
 ### DISCLAIMER
 
