@@ -10,14 +10,20 @@ Copyright 2018-2019, Richard Romig
 
 3. The **loc2file** Bash script acts as a wrapper for FnLoC and LLoC. It displays the output from FnLoC to the screen as it writes the data to a text file with a .loc extension. If there is a matching header file, it will be run through LLoC with the output appended to the file.
 
-4. Project source files:
- * fnloc.c
- * fnloc.h
- * lloc.c
- * lloc.h
- * lstates.c    common functions for both fnloc and lloc
- * lsstates.h   common declarations
- * Makefile
+4. FnLoC and LLoC are standalone programs with no known dependencies and were written using only standard C libraries.
+
+5. Project source files:
+
+| File | Notes |
+|------|-------|
+| fnloc.c | FnLoC source file
+| fnloc.h | FnLoC header file
+| lloc.c | LLoC source file
+| lloc.h | LLoC header file
+| lstates.c | common functions for both fnloc and lloc
+| lsstates.h | common declarations for both fnloc and lloc
+| Makefile | FnLoC, LLoC make file
+| loc2file | Bash script wrapper
 
 ### Compiling from source:
 1. On a Linux system, be sure GCC, binutils, glibc, and build-essentials are installed.
@@ -28,6 +34,8 @@ Copyright 2018-2019, Richard Romig
 ```
 3. The Makefile is set up to use gcc. If you use a different C compiler, change the CC variable as appropriate.
 
+4. The Makefile has not been tested on Windows with gcc in MinGW.
+
 ### Installation:
 
 1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed from the .deb package using gdebi or dpkg.
@@ -36,11 +44,13 @@ Copyright 2018-2019, Richard Romig
         sudo dpkg -i fnloc.deb
 ```
 2. The FnLoC files will be installed to the following directories:
-```
-        Executable files (fnloc, lloc, and loc2file) go into /usr/local/bin/
-        Source code files go into /usr/local/src/fnloc/
-        Documentation files go into /usr/local/doc/fnloc/
-```
+
+| Files | Location |
+|-------|----------|
+| Executable files (fnloc, lloc, and loc2file) | /usr/local/bin/
+| Source code files | /usr/local/src/fnloc/
+| Documentation files | /usr/local/doc/fnloc/
+
 3. For other Linux distributions, download the source files and the scripts (optional), compile from source, and run fnloc-install.sh.
 
 4. Windows users need to download FnLoC_Win.zip and run FnLoC-install.bat. See the included README.txt for more information.
@@ -183,7 +193,7 @@ Copyright 2018-2019, Richard Romig
 
 5. LLoC is more lenient about coding style than FnLoC since it isn't concerned with the syntax for functions. However, data structure definitions, particularly those for arrays and enumerated types are counted exacly the same.
 
-6. On Linux systems, the programs may not correctly count in source files created with DOS or Windows text editors because they may embed carriage returns throughout the file. This can be remedied by cleaning them out of the DOS/Windows source files using the following command:
+6. On Linux systems, the programs may not correctly count in source files that were created with DOS or Windows text editors because they may embed carriage returns throughout the file. This can be remedied by cleaning them out of the DOS/Windows source files using the following command:
 ```
         sed -i.bak -e 's/\r//g' sourcefile
 ```
@@ -195,16 +205,16 @@ Copyright 2018-2019, Richard Romig
 
 Feel free to contact me with comments and suggestions for FnLoC. Also feel free to share any code or ideas that will help me improve this program. I can be reached through my blog, Twitter, and email.
 
->[GitHub](https://github.com/RickRomig/FnLoC)
->
->[Rick's Tech Stuff](https://ricktech.wordpress.com)
->
->[Twitter (@ludditegeek)](https://twitter.com/ludditegeek)
->
->Email: <rick.romig@gmail.com> or <rb_romig@twc.com>
+* [GitHub](https://github.com/RickRomig/FnLoC)
+
+* Rick's Tech Stuff](https://ricktech.wordpress.com)
+
+* [Twitter (@ludditegeek)](https://twitter.com/ludditegeek)
+
+* Email: <rick.romig@gmail.com> or <rb_romig@twc.com>
 
 Richard Romig
-30 January 2019
+04 March 2019
 
 ### DISCLAIMER
 
