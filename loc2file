@@ -27,6 +27,9 @@
 # You should have received a copy of the GNU General Public License along
 # with this program. If not, see <https://www.gnu.org/licenses/>.
 
+declare -r VERSION="2.2"
+declare -r COPYRIGHT="Copyright 2018-2019"
+declare -f AUTHOR="Richard B. Romig"
 MYSCRIPT=$(basename $0)
 
 usage () {
@@ -60,8 +63,8 @@ fi
 BASEFILE=${CSOURCE%%.*}
 LOCFILE="$BASEFILE.loc"
 
-echo "$MYSCRIPT 2.2"
-echo "Copyright 2018-2019, Richard B. Romig"
+echo "$MYSCRIPT $VERSION"
+echo "$COPYRIGHT, $AUTHOR"
 echo "====================================="
 echo "Writing LOC data to $LOCFILE..."
 

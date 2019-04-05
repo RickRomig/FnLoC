@@ -1,5 +1,9 @@
 # CHANGELOG
 
+#### April 4, 2019
+**loc2file**
+* Created read-only variables. One to hold the version number and the other to hold the copyright information.
+
 #### January 29, 2019
 **FnLoC 2.3 & LLoC 1.1**
 
