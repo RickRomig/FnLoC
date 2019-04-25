@@ -1,4 +1,7 @@
-# CHANGELOG
+# Changelog
+#### April 25, 2018
+**DEB package**
+* Changed name of .deb package to a more descriptive name that includes the version number and the system architecture.
 
 #### April 4, 2019
 **loc2file**

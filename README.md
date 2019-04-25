@@ -3,8 +3,10 @@ Counts logical lines of code and functions in C and C++ source code files.
 
 Copyright 2018-2019, Richard Romig
 
+Licensed under the GNU General Public License, version 2.0.
+
 ### Description:
-1. **FnLoC** is a program that runs from a command-line which counts logical lines of code in C and C++ source code files disregarding comments and blank lines. It also counts and lists functions by name displaying their respective lines of code. The program assumes that the code is written according to modern C coding standards as illustrated in _The C Programming Language, 2nd edition_ by Brian W. Kernighan & Dennis M. Ritchie. Comments and blank lines are not counted as lines of code. The programs takes into account both C and C++ style comments. Lines containing only opening or closing braces ({}) are not counted as lines of code.
+1. **FnLoC** is a program that runs from a command-line which counts logical lines of code in C and C++ source code files, disregarding comments and blank lines. It also counts and lists functions by name displays their respective lines of code counts. The program assumes that the code is written according to modern C coding standards as illustrated in _The C Programming Language, 2nd edition_ by Brian W. Kernighan & Dennis M. Ritchie. Comments and blank lines are not counted as lines of code. The programs takes into account both C and C++ style comments. Lines containing only opening or closing braces ({}) are not counted as lines of code.
 2. **LLoC** is an accompanying program that simply counts logical lines of source code, disregarding blank lines and comments without the breakdown into functions.
 3. The **loc2file** Bash script acts as a wrapper for FnLoC and LLoC. It displays the output from FnLoC to the screen as it writes the data to a text file with a .loc extension. If there is a matching header file, it will be run through LLoC with the output appended to the file.
 4. FnLoC and LLoC are standalone programs with no known dependencies and were written using only standard C libraries.
@@ -23,7 +25,7 @@ Copyright 2018-2019, Richard Romig
 
 ### Compiling from source:
 1. On a Linux system, be sure GCC, binutils, glibc, and build-essentials are installed.
-2. Compile the code using the Makefile: (recommended)
+2. Compile the code using the Makefile (recommended).
 ```
 make Makefile
 ```
@@ -34,8 +36,8 @@ make Makefile
 
 1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed from the .deb package using gdebi or dpkg.
 ```
-sudo gdebi fnloc.deb
-sudo dpkg -i fnloc.deb
+sudo gdebi fnloc_2.3.0_amd64.deb
+sudo dpkg -i fnloc_2.3.0_amd64.deb
 ```
 2. The FnLoC files will be installed to the following directories:
 
@@ -45,14 +47,14 @@ sudo dpkg -i fnloc.deb
 | Source code files | /usr/local/src/fnloc/
 | Documentation files | /usr/local/doc/fnloc/
 
-3. For other Linux distributions, download the source files and the scripts (optional), compile from source, and run fnloc-install.sh.
+3. For other Linux distributions or 32-bit systems, download the source files and scripts (optional), compile from source, and run fnloc-install.sh.
 4. Windows users need to download FnLoC_Win.zip and run FnLoC-install.bat. See the included README.txt for more information.
 
 ### Program removal:
 
 1. If installed from fnloc.deb, you can remove the software via your system's Software Center/Manager or the Synaptic Package manager. You can remove the software from the command line with one of the following commands:
 ```
-sudo apt-get remove fnloc
+sudo apt remove fnloc
 sudo dpkg -- remove fnloc
 ```
 2. If installed using fnloc-install.sh, use the fnloc-uninstall.sh script.
@@ -190,7 +192,7 @@ Feel free to contact me with comments and suggestions for FnLoC. Also feel free 
 * Email: <rick.romig@gmail.com> or <rb_romig@twc.com>
 
 Richard Romig
-05 March 2019
+25 April 2019
 
 ### DISCLAIMER
 
