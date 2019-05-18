@@ -30,7 +30,7 @@
 declare -r VERSION="2.2"
 declare -r COPYRIGHT="Copyright 2018-2019"
 declare -f AUTHOR="Richard B. Romig"
-MYSCRIPT=$(basename $0)
+MYSCRIPT=$(basename "$0")
 
 usage () {
 	echo "Usage: $MYSCRIPT sourcefile.c"
@@ -69,15 +69,15 @@ echo "====================================="
 echo "Writing LOC data to $LOCFILE..."
 
 # Process the source file with fnloc
-fnloc $CSOURCE | tee $LOCFILE
+fnloc "$CSOURCE" | tee "$LOCFILE"
 
 # Process matching header file if it exists
 if [ -e "$BASEFILE.h" ]; then
-	lloc $BASEFILE.h | tee -a $LOCFILE
+	lloc "$BASEFILE.h" | tee -a "$LOCFILE"
 elif [ -e "$BASEFILE.hh" ]; then
-	lloc $BASEFILE.hh | tee -a $LOCFILE
+	lloc "$BASEFILE.hh" | tee -a "$LOCFILE"
 fi
 
 echo "Logical lines of code data written to $LOCFILE."
 
-exit 0
+exit
