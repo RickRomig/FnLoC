@@ -9,6 +9,7 @@
 # Email        : rick.romig@gmail.com
 # Comment      : Modified 01/26/10 to incorporate lloc and allow
 #              : .cc and .hh file extensions.
+# TODO (rick)  :
 #####################################################################
 
 # Copyright (C) 2018-2019  Richard Romig
@@ -27,36 +28,37 @@
 # You should have received a copy of the GNU General Public License along
 # with this program. If not, see <https://www.gnu.org/licenses/>.
 
-declare -r VERSION="2.2"
+declare -r VERSION="2.2.2"
 declare -r COPYRIGHT="Copyright 2018-2019"
-declare -f AUTHOR="Richard B. Romig"
+declare -r AUTHOR="Richard B. Romig"
 MYSCRIPT=$(basename "$0")
 
-usage () {
-	echo "Usage: $MYSCRIPT sourcefile.c"
-	echo "Acceptable extensions are: .c .cpp .cc"
-	exit 1
+usage()
+{
+  echo "Usage: $MYSCRIPT sourcefile.c"
+  echo "Acceptable extensions are: .c .cpp .cc"
+  exit 1
 }
 
 # Check for arguments
-if  [ -z "$1" ]; then
-	echo "Error: No argument provided."
-	usage
+if [ -z "$1" ]; then
+  echo "Error: No argument provided."
+  usage
 else
-	CSOURCE=$1
+  CSOURCE=$1
 fi
 
 # Test if file passed exists. If not, exit with error.
 if [ ! -f "$CSOURCE" ]; then
-	echo "Error: $CSOURCE not found."
-	usage
+  echo "Error: $CSOURCE not found."
+  usage
 fi
 
 # Get file extension and check to see if it's valid. If not, exit with error.
 EXT="${CSOURCE##*.}"
 if [ "$EXT" != 'c' ] && [ "$EXT" != "cpp" ] && [ "$EXT" != "cc" ]; then
-	echo "Error: Invalid file extension."
-	usage
+  echo "Error: Invalid file extension."
+  usage
 fi
 
 # Get base filename and create filename for LOC data
@@ -73,9 +75,9 @@ fnloc "$CSOURCE" | tee "$LOCFILE"
 
 # Process matching header file if it exists
 if [ -e "$BASEFILE.h" ]; then
-	lloc "$BASEFILE.h" | tee -a "$LOCFILE"
+  lloc "$BASEFILE.h" | tee -a "$LOCFILE"
 elif [ -e "$BASEFILE.hh" ]; then
-	lloc "$BASEFILE.hh" | tee -a "$LOCFILE"
+  lloc "$BASEFILE.hh" | tee -a "$LOCFILE"
 fi
 
 echo "Logical lines of code data written to $LOCFILE."
