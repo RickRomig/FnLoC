@@ -1,14 +1,16 @@
 #!/bin/bash
 #####################################################################
 # Script Name  : loc2file
-# Description  : Wrapper for fnloco/lloc. Redirects program output to
-#              : a file and stdout
+# Description  : Wrapper for fnloco/lloc. LOC data to stdout as it
+#              : redirects it to a file.
 # Dependencies : fnloc, lloc, tee
 # Arguments    :
 # Author       : Richard Romig, 26 January 2019
 # Email        : rick.romig@gmail.com
-# Comment      : Modified 01/26/10 to incorporate lloc and allow
+# Comment      : Modified 01/26/19 to incorporate lloc and allow
 #              : .cc and .hh file extensions.
+#              : Modified 03/31/20 to improve checks for arguments and
+#              : processing of header files.
 # TODO (rick)  :
 #####################################################################
 
@@ -28,8 +30,8 @@
 # You should have received a copy of the GNU General Public License along
 # with this program. If not, see <https://www.gnu.org/licenses/>.
 
-declare -r VERSION="2.2.2"
-declare -r COPYRIGHT="Copyright 2018-2019"
+declare -r VERSION="2.3.0"
+declare -r COPYRIGHT="Copyright 2018-2020"
 declare -r AUTHOR="Richard B. Romig"
 MYSCRIPT=$(basename "$0")
 
@@ -40,46 +42,40 @@ usage()
   exit 1
 }
 
+process_code()
+{
+  # Process the source file with fnloc
+  fnloc "$CSOURCE" | tee "$LOCFILE"
+
+  # Process matching header file if it exists
+  [ -e "$BASEFILE.h" ] && lloc "$BASEFILE.h" | tee -a "$LOCFILE"
+  [ -e "$BASEFILE.hh" ] && lloc "$BASEFILE.hh" | tee -a "$LOCFILE"
+
+  echo "Logical lines of code data written to $LOCFILE."
+  exit
+}
+
 # Check for arguments
 if [ -z "$1" ]; then
-  echo "Error: No argument provided."
+  echo -e "\e[1;31mError:\e[0m No argument provided." >&2
+  usage
+elif [ ! -f "$1" ]; then
+  echo -e "\e[1;31mError:\e[0m $1 not found." >&2
   usage
 else
   CSOURCE=$1
 fi
 
-# Test if file passed exists. If not, exit with error.
-if [ ! -f "$CSOURCE" ]; then
-  echo "Error: $CSOURCE not found."
-  usage
-fi
-
-# Get file extension and check to see if it's valid. If not, exit with error.
-EXT="${CSOURCE##*.}"
-if [ "$EXT" != 'c' ] && [ "$EXT" != "cpp" ] && [ "$EXT" != "cc" ]; then
-  echo "Error: Invalid file extension."
-  usage
-fi
-
 # Get base filename and create filename for LOC data
 BASEFILE=${CSOURCE%%.*}
 LOCFILE="$BASEFILE.loc"
+EXT="${CSOURCE##*.}"
 
 echo "$MYSCRIPT $VERSION"
 echo "$COPYRIGHT, $AUTHOR"
 echo "====================================="
 echo "Writing LOC data to $LOCFILE..."
-
-# Process the source file with fnloc
-fnloc "$CSOURCE" | tee "$LOCFILE"
-
-# Process matching header file if it exists
-if [ -e "$BASEFILE.h" ]; then
-  lloc "$BASEFILE.h" | tee -a "$LOCFILE"
-elif [ -e "$BASEFILE.hh" ]; then
-  lloc "$BASEFILE.hh" | tee -a "$LOCFILE"
-fi
-
-echo "Logical lines of code data written to $LOCFILE."
-
-exit
+case $EXT in
+  c|cc|cpp ) process_code ;;
+  * ) echo -e "\e[1;31mError:\e[0m Invalid file extension." >&2; usage ;;
+esac
