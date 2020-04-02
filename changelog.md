@@ -1,15 +1,25 @@
 # Changelog
 
+### March 31, 2020
+
+**loc2file**
+
+- Placed calls to fnloc and lloc in a process_code function.
+
+- Replaced the if-statement to check source code extensions with a case statement that calls the process_code function if the extension is valid. Invalid extensions produce an error message, displays the usage instructions, and exit the script.
+
 ### March 20, 2020
 
 **loc2file**
+
 * Fixed typo in a variable declaration.
-```
-# Old code:
-declare -f AUTHOR="Richard B. Romig"
-# New code:
-declare -r AUTHOR="Richard B. Romig"
-```
+  
+  ```
+  # Old code:
+  declare -f AUTHOR="Richard B. Romig"
+  # New code:
+  declare -r AUTHOR="Richard B. Romig"
+  ```
 
 #### April 25, 2018
 
@@ -80,7 +90,7 @@ declare -r AUTHOR="Richard B. Romig"
 * Simplified the data structures holding the function names and counts. Instead of a data structure in the main program, used simple variables to temporarily hold the function data to be inserted into the list. Added code to initialize variables and reset fn_name and fn_loc after they'd been added to the list.
 
 * Split the print_data() function to display the program output into three separate functions based on their intended purpose:
-
+  
   ```
   void print_intro(char source[])
   void print_fn_data(char source[], int fn_count, int prg_loc)
@@ -92,32 +102,33 @@ declare -r AUTHOR="Richard B. Romig"
 * In main(), renamed some of the counting variables to be more meaningful.
 
 * Changed the if condition that set the PosFunction state to disregard the current function state and base the change in state on the presence of an alpha character in the first position of the buffer string.
-
+  
   ```
   if ( fn_state == NotFunction && isalpha(buffer[0]) ) is now
   if ( isalpha(buffer[0]) )
   ```
 
 * The Linux gcc compiler gave a warning about the NewLineNC state not being handled in switch (state) so I added a case statement for it that does nothing since NewLineNC is a transitory state that is handled outside of the switch (state).
-
+  
   ```
   case (NewLineNC) :
         break;
   ```
-
+  
   #### September 4, 2018
-
+  
   **fnloc.c v2.1.2**
 
 * Fixed the problem with splitting function headers to fit within a 80 character line by changing conditional statement in the main function:
-
+  
   * Old line:
-
+    
     ```
     if ( fn_state == PosFunction && buffer[0] != '{' )
     ```
+  
   * New line:
-
+    
     ```
     if ( fn_state == PosFunction && buffer[0] == '}' )
     ```
