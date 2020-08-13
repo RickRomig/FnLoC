@@ -1,5 +1,21 @@
 # Changelog
 
+### August 12, 2020
+
+**loc2file 2.3.1**
+
+- Split the processing of C/C++ source code files and header files into separate functions, allowing header files to be processed separately.
+
+- Expanded case statement to send C/C++ source code to the `process_source` function and header files to the `proces_header` function.
+
+- The `process_source`function calls `proces_header` if a corresponding header file is present.
+
+**DEB package**
+
+- Added the modified `loc2file` script and updated documentation to the package.
+
+- Renamed to fnloc_2.3.1_amd64
+
 ### March 31, 2020
 
 **loc2file**
