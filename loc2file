@@ -4,14 +4,17 @@
 # Description  : Wrapper for fnloco/lloc. LOC data to stdout as it
 #              : redirects it to a file.
 # Dependencies : fnloc, lloc, tee
-# Arguments    :
+# Arguments    : C/C++ source code or header file
 # Author       : Richard Romig, 26 January 2019
 # Email        : rick.romig@gmail.com
-# Comment      : Modified 01/26/19 to incorporate lloc and allow
+# Comments     : Modified 01/26/19 to incorporate lloc and allow
 #              : .cc and .hh file extensions.
 #              : Modified 03/31/20 to improve checks for arguments and
 #              : processing of header files.
-# TODO (rick)  :
+#              : Modified 08/12/20 - split processng of c source and
+#              : header files into separate functions in order to allow
+#              : procesing of header files without the C/C++ source.
+# TODO (rick)  : Process multiple source & header files in a project.
 #####################################################################
 
 # Copyright (C) 2018-2019  Richard Romig
@@ -30,29 +33,30 @@
 # You should have received a copy of the GNU General Public License along
 # with this program. If not, see <https://www.gnu.org/licenses/>.
 
-declare -r VERSION="2.3.0"
+declare -r VERSION="2.3.1"
 declare -r COPYRIGHT="Copyright 2018-2020"
 declare -r AUTHOR="Richard B. Romig"
-MYSCRIPT=$(basename "$0")
+declare -r SCRIPT=$(basename "$0")
 
 usage()
 {
-  echo "Usage: $MYSCRIPT sourcefile.c"
+  echo "Usage: $SCRIPT sourcefile.c"
   echo "Acceptable extensions are: .c .cpp .cc"
   exit 1
 }
 
-process_code()
+process_source()
 {
   # Process the source file with fnloc
   fnloc "$CSOURCE" | tee "$LOCFILE"
-
   # Process matching header file if it exists
-  [ -e "$BASEFILE.h" ] && lloc "$BASEFILE.h" | tee -a "$LOCFILE"
-  [ -e "$BASEFILE.hh" ] && lloc "$BASEFILE.hh" | tee -a "$LOCFILE"
+  [[ -f "$BASEFILE.h" || -f "$BASEFILE.hh" ]] && process_header
+}
 
-  echo "Logical lines of code data written to $LOCFILE."
-  exit
+process_header()
+{
+  [ -f "$BASEFILE.h" ] && lloc "$BASEFILE.h" | tee -a "$LOCFILE"
+  [ -f "$BASEFILE.hh" ] && lloc "$BASEFILE.hh" | tee -a "$LOCFILE"
 }
 
 # Check for arguments
@@ -71,11 +75,20 @@ BASEFILE=${CSOURCE%%.*}
 LOCFILE="$BASEFILE.loc"
 EXT="${CSOURCE##*.}"
 
-echo "$MYSCRIPT $VERSION"
+echo "$SCRIPT $VERSION"
 echo "$COPYRIGHT, $AUTHOR"
 echo "====================================="
 echo "Writing LOC data to $LOCFILE..."
 case $EXT in
-  c|cc|cpp ) process_code ;;
+  c|cc|cpp )
+    process_source
+    echo "Logical lines of code data for $CSOURCE written to $LOCFILE."
+    ;;
+  h|hh )
+    process_header
+    echo "Logical lines of code data for $CSOURCE written to $LOCFILE."
+    ;;
   * ) echo -e "\e[1;31mError:\e[0m Invalid file extension." >&2; usage ;;
 esac
+
+exit
