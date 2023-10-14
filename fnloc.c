@@ -14,7 +14,7 @@
  * lines of code contained in functions, total lines of code outside of
  * functions, and total lines of code in the program. If the source code
  * contains no functions, as in a header file, it displays that it contains
- * no functions and shows the tocal LOC for the file.
+ * no functions and shows the total LOC for the file.
  *
  * LIMITATIONS
  *  Target file must be a text file of C/C++ source code. Results for C source

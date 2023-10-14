@@ -28,12 +28,15 @@ Licensed under the GNU General Public License, version 2.0.
 ### Compiling from source:
 
 1. On a Linux system, be sure GCC, binutils, glibc, and build-essentials are installed.
+
 2. Compile the code using the Makefile (recommended).
    
    ```
    make Makefile
    ```
+
 3. The Makefile is set up to use gcc. If you use a different C compiler, change the CC variable as appropriate.
+
 4. The Makefile has not been tested with gcc in MinGW on Windows.
 
 ### Installation:
@@ -44,6 +47,7 @@ Licensed under the GNU General Public License, version 2.0.
    sudo gdebi fnloc_2.3.0_amd64.deb
    sudo dpkg -i fnloc_2.3.0_amd64.deb
    ```
+
 2. The FnLoC files will be installed to the following directories:
 
 | Files                                        | Location              |
@@ -62,47 +66,56 @@ Licensed under the GNU General Public License, version 2.0.
    sudo apt remove fnloc
    sudo dpkg -- remove fnloc
    ```
+
 2. If installed using fnloc-install.sh, use the fnloc-uninstall.sh script.
+
 3. FnLoC can be removed manually by deleting the installed files from their respective directories.
 
 ### Syntax
 
 1. To display the lines of code data of a C source code file run the following command from a terminal:
+   
    * If you are in same directory as the targeted source code file:
      
      ```
      fnloc sourcefile.c
      lloc sourcefile.c
      ```
+   
    * Or include the path to your source code:
      
      ```
      fnloc /path/to/sourcefile.c
      lloc  /path/to/sourcefile.c
      ```
+   
    * The results can be redirected to a text file with the following command:
      
      ```
      fnloc sourcefile.c > sourcefile.loc
      lloc sourcefile.c > sourcefile.loc
      ```
+   
    * The results can be diplayed to both the screen and redirected to a file with the following command:
      
      ```
      fnloc sourcefile.c | tee sourcefile.loc
      lloc sourcefile.c | tee sourcefile.loc
      ```
+   
    * Alternatively, you can use loc2file to display the output to the screen while redirecting it to a text file with the .loc extension.
      
      ```
      log2file mysource.c
      ```
+   
    * Adding -h or --help after either program name displays the program syntax:
      
      ```
      fnloc -h
      fnloc --help
      ```
+   
    * If you don't include an argument or if the program fails to open the file passed as an argument it will also call up the help function.
 
 ### Program Limitations
@@ -214,10 +227,10 @@ Feel free to contact me with comments and suggestions for FnLoC. Also feel free 
 * [GitHub](https://github.com/RickRomig/FnLoC)
 * [Rick's Tech Stuff](https://ricktech.wordpress.com)
 * [Twitter (@ludditegeek)](https://twitter.com/ludditegeek)
-* Email: [rick.romig@gmail.com]() or [rb_romig@twc.com]()
+* Email: <rick.romig@gmail.com> or <rick.romig@mymetronet.net>
 
 Richard Romig
-25 April 2019
+07 October 2022
 
 ### DISCLAIMER
 
