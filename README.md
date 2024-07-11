@@ -24,13 +24,14 @@ Licensed under the GNU General Public License, version 2.0.
 | lsstates.h | common declarations for both fnloc and lloc |
 | Makefile   | FnLoC, LLoC make file                       |
 | loc2file   | Bash script wrapper                         |
+| SHA256.txt | Checksum file for the .deb package          |
 
 ### Compiling from source:
 
 1. On a Linux system, be sure GCC, binutils, glibc, and build-essentials are installed.
 
 2. Compile the code using the Makefile (recommended).
-   
+
    ```
    make Makefile
    ```
@@ -42,7 +43,7 @@ Licensed under the GNU General Public License, version 2.0.
 ### Installation:
 
 1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed from the .deb package using gdebi or dpkg.
-   
+
    ```
    sudo gdebi fnloc_2.3.0_amd64.deb
    sudo dpkg -i fnloc_2.3.0_amd64.deb
@@ -61,7 +62,7 @@ Licensed under the GNU General Public License, version 2.0.
 ### Program removal:
 
 1. If installed from fnloc.deb, you can remove the software via your system's Software Center/Manager or the Synaptic Package manager. You can remove the software from the command line with one of the following commands:
-   
+
    ```
    sudo apt remove fnloc
    sudo dpkg -- remove fnloc
@@ -74,88 +75,88 @@ Licensed under the GNU General Public License, version 2.0.
 ### Syntax
 
 1. To display the lines of code data of a C source code file run the following command from a terminal:
-   
+
    * If you are in same directory as the targeted source code file:
-     
+
      ```
      fnloc sourcefile.c
      lloc sourcefile.c
      ```
-   
+
    * Or include the path to your source code:
-     
+
      ```
      fnloc /path/to/sourcefile.c
      lloc  /path/to/sourcefile.c
      ```
-   
+
    * The results can be redirected to a text file with the following command:
-     
+
      ```
      fnloc sourcefile.c > sourcefile.loc
      lloc sourcefile.c > sourcefile.loc
      ```
-   
+
    * The results can be diplayed to both the screen and redirected to a file with the following command:
-     
+
      ```
      fnloc sourcefile.c | tee sourcefile.loc
      lloc sourcefile.c | tee sourcefile.loc
      ```
-   
+
    * Alternatively, you can use loc2file to display the output to the screen while redirecting it to a text file with the .loc extension.
-     
+
      ```
      log2file mysource.c
      ```
-   
+
    * Adding -h or --help after either program name displays the program syntax:
-     
+
      ```
      fnloc -h
      fnloc --help
      ```
-   
+
    * If you don't include an argument or if the program fails to open the file passed as an argument it will also call up the help function.
 
 ### Program Limitations
 
 1. For FnLoC functions are expected to be in the following style:
-   
+
    ```c
         int function_name(int x, int y)
         {
             statements....
         }
    ```
-   
+
    * This is the format recommended by Linus Torvalds in [Linux Kernel Coding Style](https://www.kernel.org/doc/html/v4.10/process/coding-style.html) and is based on the style used by K&R in 'The C Programming Language, 2nd Edition'.
    * If the opening brace '{' is on the same line as the function name and parameters, it will not be seen as a function. The lines of code will be counted but as code outside of a function.
    * The program will properly count and display function headers that are split over two lines. Function headers should be limited to one or two lines of less than 128 characters each. The buffer limit is set to 128 characters. However, restraining function headers to a single line and 80 characters or less is a good practice.
 
 2. Data structures should be in the following style:
-   
+
    ```c
         struct {
            int len;
            char* str;
         } data;
    ```
-   
+
    * This is the style used by Kernighan & Ritchie in _The C Programming Language, 2nd edition_.
-   
+
    * The GNU C coding standard suggests placing the opening brackets are at the beginning of a line. However, FnLoC will incorrectly identify a structure written in this style as a function.
-   
+
    * In data structure declarations such as arrays or enumerated types in which the data elements are delimited by commas, the elements inside the braces are not counted if they are not on the same line as a brace.
-     
+
      ```c
         int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         /* counted as a single line of code. */
-     
+
         int days[12] = { 31, 28, 31, 30, 31, 30,
                 31, 31, 30, 31, 30, 31 };
-        /* counted as two lines of code */            
-     
+        /* counted as two lines of code */
+
         int days[12] = {
                 31, 28, 31, 30, 31, 30,
                 31, 31, 30, 31, 30, 31 };
@@ -163,26 +164,26 @@ Licensed under the GNU General Public License, version 2.0.
      ```
 
 3. Conditional statements, for loops and while loops without braces and only one statement following are counted as one line of code.
-   
+
    ```c
         if ( condition )
                 action;
         /* This is seen as a one logical line of code */
-   
+
         for ( i=1; i < 10; i++ )
                 if (condition)
                     action;
         /* This is seen as a one logical line of code */
-   
+
         while ( condition )
                 action;
         /* This is seen as a one logical line of code */
-   
+
         do
                 action;
         while ( condition );
         /* This is seen as two logical lines of code */
-   
+
         if ( condition )
         {
             action1;
@@ -195,14 +196,14 @@ Licensed under the GNU General Public License, version 2.0.
    ```
 
 4. Conditional and loop statements (if, else, for, while, do-while) where the opening brace is the first non-whtespace character on the line immediately following are counted as a line of code. Conditional statements and loop constructs can have the opening brace at either the end of the line or on the following line as long as it is not the very first character of the line (buffer[0]).
-   
+
    ```c
         while ( condition )
         {
                 action1;
                 action2;
         }
-   
+
         while ( condition ) {
                 action1;
                 action2;
@@ -212,11 +213,11 @@ Licensed under the GNU General Public License, version 2.0.
 5. LLoC is more lenient about coding style than FnLoC since it isn't concerned with the syntax for functions. However, data structure definitions, particularly those for arrays and enumerated types are counted exacly the same.
 
 6. On Linux systems, the programs may not correctly count in source files that were created with DOS or Windows text editors because they may embed carriage returns throughout the file. This can be remedied by cleaning them out of the DOS/Windows source files using the following command:
-   
+
    ```
    sed -i.bak -e 's/\r//g' sourcefile
    ```
-   
+
    * The `-i.bak` flag creates a backup of the original file.
    * There are other methods such as the tr command but I found that sed works quite well.
 
@@ -230,7 +231,7 @@ Feel free to contact me with comments and suggestions for FnLoC. Also feel free 
 * Email: <rick.romig@gmail.com> or <rick.romig@mymetronet.net>
 
 Richard Romig
-07 October 2022
+10 July 2024
 
 ### DISCLAIMER
 
