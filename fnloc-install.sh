@@ -18,25 +18,20 @@
 #
 
 echo "Installing FnLoC..."
-sudo cp -v fnloc /usr/local/bin/
-sudo cp -v lloc /usr/local/bin/
-sudo cp -v loc2file /usr/local/bin/
+sudo cp -v fnloc lloc loc2file /usr/local/bin/
+
 # Copy source code to /usr/local/src/fnloc/
 echo "Copying program source code."
-if [ ! -d /usr/local/src/fnloc/ ]
-then
-	sudo mkdir -p -v /usr/local/src/fnloc
-fi
+[[ -d /usr/local/src/fnloc ]] || sudo mkdir -p -v /usr/local/src/fnloc
 sudo cp -v fnloc.* /usr/local/src/fnloc/
 sudo cp -v lloc.* /usr/local/src/fnloc/
+sudo cp -v Makefile /usr/local/src/fnloc/
+
 # Copy documentation to /usr/local/doc/fnloc/
 echo "Copying program documentation."
-if [ ! -d /usr/local/doc/fnloc/ ]
-then
-	sudo mkdir -p -v /usr/local/doc/fnloc
-fi
-sudo cp -v *.txt /usr/local/doc/fnloc/
-sudo cp -v README.md /usr/local/doc/fnloc/
+[[ -d /usr/local/doc/fnloc/ ]] || sudo mkdir -p -v /usr/local/doc/fnloc
+sudo cp -v -- *.txt /usr/local/doc/fnloc/
+sudo cp -v -- *.md /usr/local/doc/fnloc/
+sudo cp -v WARRANTY LICENSE /usr/local/doc/fnloc/
 echo "FnLoC installed."
 exit
-
