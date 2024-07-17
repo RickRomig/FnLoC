@@ -14,17 +14,17 @@ Licensed under the GNU General Public License, version 2.0.
 4. FnLoC and LLoC are standalone programs with no known dependencies and were written using only standard C libraries.
 5. Project source files:
 
-| File       | Notes                                       |
-| ---------- | ------------------------------------------- |
-| fnloc.c    | FnLoC source file                           |
-| fnloc.h    | FnLoC header file                           |
-| lloc.c     | LLoC source file                            |
-| lloc.h     | LLoC header file                            |
-| lstates.c  | common functions for both fnloc and lloc    |
-| lsstates.h | common declarations for both fnloc and lloc |
-| Makefile   | FnLoC, LLoC make file                       |
-| loc2file   | Bash script wrapper                         |
-| SHA256.txt | Checksum file for the .deb package          |
+| File          | Notes                                       |
+| ------------- | ------------------------------------------- |
+| fnloc.c       | FnLoC source file                           |
+| fnloc.h       | FnLoC header file                           |
+| lloc.c        | LLoC source file                            |
+| lloc.h        | LLoC header file                            |
+| lstates.c     | common functions for both fnloc and lloc    |
+| lsstates.h    | common declarations for both fnloc and lloc |
+| Makefile      | FnLoC, LLoC make file                       |
+| loc2file      | Bash script wrapper                         |
+| SHA256sum.txt | Checksum file for the .deb package          |
 
 ### Compiling from source:
 
@@ -231,7 +231,7 @@ Feel free to contact me with comments and suggestions for FnLoC. Also feel free 
 * Email: <rick.romig@gmail.com> or <rick.romig@mymetronet.net>
 
 Richard Romig
-10 July 2024
+17 July 2024
 
 ### DISCLAIMER
 
