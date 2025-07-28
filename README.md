@@ -23,7 +23,7 @@ Licensed under the GNU General Public License, version 2.0.
 | lstates.c     | common functions for both fnloc and lloc    |
 | lsstates.h    | common declarations for both fnloc and lloc |
 | Makefile      | FnLoC, LLoC make file                       |
-| loc2file      | Bash script wrapper                         |
+| loc2file.sh   | Bash script wrapper                         |
 | SHA256sum.txt | Checksum file for the .deb package          |
 
 ### Compiling from source:
@@ -45,17 +45,17 @@ Licensed under the GNU General Public License, version 2.0.
 1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed from the .deb package using gdebi or dpkg.
 
    ```
-   sudo gdebi fnloc_2.3.0_amd64.deb
-   sudo dpkg -i fnloc_2.3.0_amd64.deb
+   sudo gdebi fnloc_2.3.1_amd64.deb
+   sudo dpkg -i fnloc_2.3.1_amd64.deb
    ```
 
 2. The FnLoC files will be installed to the following directories:
 
-| Files                                        | Location              |
-| -------------------------------------------- | --------------------- |
-| Executable files (fnloc, lloc, and loc2file) | /usr/local/bin/       |
-| Source code files                            | /usr/local/src/fnloc/ |
-| Documentation files                          | /usr/local/doc/fnloc/ |
+| Files                                           | Location              |
+| ----------------------------------------------- | --------------------- |
+| Executable files (fnloc, lloc, and loc2file.sh) | /usr/local/bin/       |
+| Source code files                               | /usr/local/src/fnloc/ |
+| Documentation files                             | /usr/local/doc/fnloc/ |
 
 3. For other Linux distributions or 32-bit systems, download the source files and scripts (optional), compile from source, and run fnloc-install.sh.
 
@@ -65,7 +65,7 @@ Licensed under the GNU General Public License, version 2.0.
 
    ```
    sudo apt remove fnloc
-   sudo dpkg -- remove fnloc
+   sudo dpkg --remove fnloc
    ```
 
 2. If installed using fnloc-install.sh, use the fnloc-uninstall.sh script.
@@ -104,10 +104,10 @@ Licensed under the GNU General Public License, version 2.0.
      lloc sourcefile.c | tee sourcefile.loc
      ```
 
-   * Alternatively, you can use loc2file to display the output to the screen while redirecting it to a text file with the .loc extension.
+   * Alternatively, you can use loc2file.sh to display the output to the screen while redirecting it to a text file with the .loc extension.
 
      ```
-     log2file mysource.c
+107;6u     log2file.sh mysource.c
      ```
 
    * Adding -h or --help after either program name displays the program syntax:
@@ -227,11 +227,10 @@ Feel free to contact me with comments and suggestions for FnLoC. Also feel free 
 
 * [GitHub](https://github.com/RickRomig/FnLoC)
 * [Rick's Tech Stuff](https://ricktech.wordpress.com)
-* [Twitter (@ludditegeek)](https://twitter.com/ludditegeek)
-* Email: <rick.romig@gmail.com> or <rick.romig@mymetronet.net>
+* Email: [rick.romig@gmail.com](mailto:rick.romig@gmail.com) or [rick.romig@mymetronet.net](mailto:rick.romig@mymetronet.net)
 
 Richard Romig
-17 July 2024
+28 July 2025
 
 ### DISCLAIMER
 
