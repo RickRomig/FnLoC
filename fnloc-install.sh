@@ -18,7 +18,7 @@
 #
 
 echo "Installing FnLoC..."
-sudo cp -v fnloc lloc loc2file /usr/local/bin/
+sudo cp -v fnloc lloc loc2file.sh /usr/local/bin/
 
 # Copy source code to /usr/local/src/fnloc/
 echo "Copying program source code."
@@ -30,8 +30,8 @@ sudo cp -v Makefile /usr/local/src/fnloc/
 # Copy documentation to /usr/local/doc/fnloc/
 echo "Copying program documentation."
 [[ -d /usr/local/doc/fnloc/ ]] || sudo mkdir -p -v /usr/local/doc/fnloc
-sudo cp -v -- *.txt /usr/local/doc/fnloc/
-sudo cp -v -- *.md /usr/local/doc/fnloc/
+sudo cp -v SHA256sum.txt /usr/local/doc/fnloc/
+sudo cp -v changelog.md README.md /usr/local/doc/fnloc/
 sudo cp -v WARRANTY LICENSE /usr/local/doc/fnloc/
 echo "FnLoC installed."
 exit
