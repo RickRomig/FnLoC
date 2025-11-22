@@ -1,7 +1,8 @@
 #!/bin/bash
-# fnloc-install.sh -- installs fnloc
-# Copyright (C) 2018  Richard Romig
+# fnloc-install.sh -- installs fnloc using source files
+# Copyright (C) 2018 Richard Romig
 # Email: rick.romig@gmail.com
+# Updated: 22 Nov 2025
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,21 +18,43 @@
 # with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 
-echo "Installing FnLoC..."
-sudo cp -v fnloc lloc loc2file.sh /usr/local/bin/
+copy_executables() {
+	local -r repo_dir="$1"
+	local -r binary_dir="/usr/local/bin"
+	local -r script_dir="$HOME/bin"
+	[[ -d "$binary_dir" ]] || sudo mkdir -p "$binary_dir"
+	[[ -d "$script_dir" ]] || mkdir -p "$script_dir"
+	printf "Installing FnLoC...\n"
+	sudo cp -v "$repo_dir/fnloc" "$repo_dir/lloc" "$binary_dir/"
+	sudo cp -v "$repo_dir/*.sh" "$script_dir/"
+}
 
-# Copy source code to /usr/local/src/fnloc/
-echo "Copying program source code."
-[[ -d /usr/local/src/fnloc ]] || sudo mkdir -p -v /usr/local/src/fnloc
-sudo cp -v fnloc.* /usr/local/src/fnloc/
-sudo cp -v lloc.* /usr/local/src/fnloc/
-sudo cp -v Makefile /usr/local/src/fnloc/
+copy_source_files() {
+	local -r repo_dir="$1"
+	local -r source_dir="/usr/local/src/fnloc"
+	[[ -d "$source_dir" ]] || sudo mkdir -p -v "$source_dir"
+	printf "Copying program source code files...\n"
+	sudo cp -v "$repo_dir/*.c" "$source_dir/"
+	sudo cp -v "$repo_dir/*.h" "$source_dir/"
+	sudo cp -v "$repo_dir/Makefile" "$source_dir/"
+}
 
-# Copy documentation to /usr/local/doc/fnloc/
-echo "Copying program documentation."
-[[ -d /usr/local/doc/fnloc/ ]] || sudo mkdir -p -v /usr/local/doc/fnloc
-sudo cp -v SHA256sum.txt /usr/local/doc/fnloc/
-sudo cp -v changelog.md README.md /usr/local/doc/fnloc/
-sudo cp -v WARRANTY LICENSE /usr/local/doc/fnloc/
-echo "FnLoC installed."
-exit
+copy_docs() {
+	local -r repo_dir="$1"
+	local -r docs_dir="/usr/local/doc/fnloc"
+	[[ -d "$docs_dir" ]] || sudo mkdir -p -v "$docs_dir"
+	printf "Copying program documentation...\n"
+	sudo cp -v "$repo_dir/changelog.md" "$repo_dir/README.md" "$docs_dir/"
+	sudo cp -v "$repo_dir/SHA256sum.tx" "$docs_dir/"
+	sudo cp -v "$repo_dir/WARRANTY" "$repo_dir/LICENSE" "$docs_dir/"
+}
+
+main() {
+	local -r repo_dir="$HOME/Downloads/fnloc"
+	copy_executables "$repo_dir"
+	copy_source_files "$repo_dir"
+	copy_docs "$repo_dir"
+	exit
+}
+
+main "$@"
