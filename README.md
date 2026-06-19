@@ -9,8 +9,8 @@ Licensed under the GNU General Public License, version 2.0.
 ### Description:
 
 1. **FnLoC** is a program that runs from a command-line which counts logical lines of code in C and C++ source code files, disregarding comments and blank lines. It also counts and lists functions by name displays their respective lines of code counts. The program assumes that the code is written according to modern C coding standards as illustrated in _The C Programming Language, 2nd edition_ by Brian W. Kernighan & Dennis M. Ritchie. Comments and blank lines are not counted as lines of code. The programs takes into account both C and C++ style comments. Lines containing only opening or closing braces ({}) are not counted as lines of code.
-2. **LLoC** is an accompanying program that simply counts logical lines of source code, disregarding blank lines and comments without the breakdown into functions.
-3. The **loc2file** Bash script acts as a wrapper for FnLoC and LLoC. It displays the output from FnLoC to the screen as it writes the data to a text file with a .loc extension. If there is a matching header file, it will be run through LLoC with the output appended to the file.
+2. **LLoC** is an accompanying program that simply counts logical lines of source code, disregarding blank lines and comments without the breakdown into functions. It is well-suited for header files.
+3. The **loc2file** is a Bash script acts as a wrapper for FnLoC and LLoC. It displays the output from FnLoC to the screen as it writes the data to a text file with a .loc extension. If there is a matching header file, it will be run through LLoC with the output appended to the file.
 4. FnLoC and LLoC are standalone programs with no known dependencies and were written using only standard C libraries.
 5. Project source files:
 
@@ -24,55 +24,43 @@ Licensed under the GNU General Public License, version 2.0.
 | lsstates.h    | common declarations for both fnloc and lloc |
 | Makefile      | FnLoC, LLoC make file                       |
 | loc2file      | Bash script wrapper                         |
-| SHA256sum.txt | Checksum file for the .deb package          |
 
 ### Compiling from source:
 
 1. On a Linux system, be sure GCC, binutils, glibc, and build-essentials are installed.
 
-[FnLoC archive](http://192.168.0.16:3000/Nullifidian/fnloc/raw/branch/main/fnloc-2.3.1_amd64.tar.gz)
+2. Clone the FnLoC repository or download a ZIP file of the repository.
 
-2. Compile the code using the Makefile (recommended).
+[FnLoC archive](https://github.com/RickRomig/FnLoC.git)
+[FnLoC zip](https://github.com/RickRomig/FnLoC/archive/refs/heads/master.zip)
 
-   ```
-   make Makefile
-   ```
+3. Compile the code using the Makefile (recommended).
 
-3. The Makefile is set up to use gcc. If you use a different C compiler, change the CC variable as appropriate.
-
-4. The Makefile has not been tested with gcc in MinGW on Windows.
+```bash
+make Makefile
+```
+4. The Makefile is set up to use gcc. If you use a different C compiler, change the CC variable as appropriate.
 
 ### Installation:
 
-1. In Debian-based distributions (Ubuntu, Mint, etc.) FnLoC can be installed from the .deb package using gdebi or dpkg.
+1. Run fnloc-install.sh to create the necesary directories and copy the files.
 
-   ```
-   sudo gdebi fnloc_2.3.0_amd64.deb
-   sudo dpkg -i fnloc_2.3.0_amd64.deb
-   ```
+2. The FnLoC files should be installed to the following directories:
 
-2. The FnLoC files will be installed to the following directories:
-
-| Files                                        | Location              |
-| -------------------------------------------- | --------------------- |
-| Executable files (fnloc, lloc, and loc2file) | /usr/local/bin/       |
-| Source code files                            | /usr/local/src/fnloc/ |
-| Documentation files                          | /usr/local/doc/fnloc/ |
-
-3. For other Linux distributions or 32-bit systems, download the source files and scripts (optional), compile from source, and run fnloc-install.sh.
+| Files                                           | Location              |
+| ----------------------------------------------- | --------------------- |
+| Executable files (fnloc, lloc, and loc2file.sh) | /usr/local/bin/       |
+| Source code files                               | /usr/local/src/fnloc/ |
+| Documentation files                             | /usr/local/doc/fnloc/ |
 
 ### Program removal:
 
-1. If installed from fnloc.deb, you can remove the software via your system's Software Center/Manager or the Synaptic Package manager. You can remove the software from the command line with one of the following commands:
-
-   ```
-   sudo apt remove fnloc
-   sudo dpkg -- remove fnloc
-   ```
-
-2. If installed using fnloc-install.sh, use the fnloc-uninstall.sh script.
-
-3. FnLoC can be removed manually by deleting the installed files from their respective directories.
+1. Run the following commmands to remove the FnLoC binaries, scripts, source files, and documentation:
+```bash
+find /usr/local/bin -type f -name "*loc*" -exec sudo rm {} \;
+find /usr/local -type d -name "fnloc" -exec sudo rm -rf {} \;
+```
+2. FnLoC can also be removed manually by deleting the installed files from their respective directories.
 
 ### Syntax
 
@@ -80,41 +68,41 @@ Licensed under the GNU General Public License, version 2.0.
 
    * If you are in same directory as the targeted source code file:
 
-     ```
+     ```bash
      fnloc sourcefile.c
      lloc sourcefile.c
      ```
 
    * Or include the path to your source code:
 
-     ```
+     ```bash
      fnloc /path/to/sourcefile.c
      lloc  /path/to/sourcefile.c
      ```
 
    * The results can be redirected to a text file with the following command:
 
-     ```
+     ```bash
      fnloc sourcefile.c > sourcefile.loc
      lloc sourcefile.c > sourcefile.loc
      ```
 
    * The results can be diplayed to both the screen and redirected to a file with the following command:
 
-     ```
-     fnloc sourcefile.c | tee sourcefile.loc
-     lloc sourcefile.c | tee sourcefile.loc
+     ```bash
+     fnloc sourcefile.c | tee sourcefile.loc	# tee sourcefile.loc < <(fnloc sourcefile.c)
+     lloc sourcefile.c | tee sourcefile.loc		# tee sourcefile.loc < <(lloc sourcefile.c)
      ```
 
    * Alternatively, you can use loc2file to display the output to the screen while redirecting it to a text file with the .loc extension.
 
-     ```
+     ```bash
      log2file mysource.c
      ```
 
    * Adding -h or --help after either program name displays the program syntax:
 
-     ```
+     ```bash
      fnloc -h
      fnloc --help
      ```
@@ -229,11 +217,10 @@ Feel free to contact me with comments and suggestions for FnLoC. Also feel free 
 
 * [GitHub](https://github.com/RickRomig/FnLoC)
 * [Rick's Tech Stuff](https://ricktech.wordpress.com)
-* [Twitter (@ludditegeek)](https://twitter.com/ludditegeek)
 * Email: [rick.romig@gmail.com](mailto:rick.romig@gmail.com) or [rick.romig@mymetronet.net](mailto:rick.romig@mymetronet.net)
 
 Richard Romig
-28 July 2024
+19 June 2026
 
 ### DISCLAIMER
 
